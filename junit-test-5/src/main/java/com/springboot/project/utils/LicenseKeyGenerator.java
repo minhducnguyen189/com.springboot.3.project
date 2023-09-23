@@ -19,8 +19,8 @@ public class LicenseKeyGenerator {
     public String generate() {
         if (numberOfSections < 2        ||
                 numberOfSections > 6    ||
-                sectionLength < 7       ||
-                sectionLength > 12      ||
+                sectionLength < 6       ||
+                sectionLength > 10      ||
                 numberOfDigit < 3       ||
                 numberOfDigit > 5       ||
                 numberOfCharacter < 3   ||
