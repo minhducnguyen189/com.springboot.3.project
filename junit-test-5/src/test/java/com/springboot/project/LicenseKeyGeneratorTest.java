@@ -19,45 +19,27 @@ class LicenseKeyGeneratorTest {
     @Test
     @DisplayName("should return valid licenseKey with 3 sections and length is 10 with 5 character and 5 digit")
     void should_return_valid_license_key_with_3_sections() {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < 3; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < 2) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(3);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(3, 10, 5, 5);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     @ParameterizedTest(name = "[{index}] sections: {0}")
     @ValueSource(ints = {3, 4, 6})
     @DisplayName("should return valid licenseKey with 3, 4 and 6 sections")
     void should_return_valid_license_key_with_parameterized_and_valueSource(int numberOfSection) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, 10, 5, 5);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     @ParameterizedTest(name = "[{index}] sections: {0} - sectionLength: {1} - numOfCharacter: {2} - numOfDigit: {3}")
     @CsvSource({"3,10,5,5", "4,6,3,3"})
     @DisplayName("should return valid licenseKey with input csv source")
     void should_return_valid_license_key_with_parameterized_csv_source(int numberOfSection, int sectionLength, int numOfCharacter, int numOfDigit) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
 
@@ -70,45 +52,27 @@ class LicenseKeyGeneratorTest {
         int numOfCharacter = argumentsAccessor.getInteger(2);
         int numOfDigit = argumentsAccessor.getInteger(3);
 
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     @ParameterizedTest(name = "[{index}] sections: {0} - sectionLength: {1} - numOfCharacter: {2} - numOfDigit: {3}")
     @CsvFileSource(resources = {"/data.csv"}, numLinesToSkip = 1)
     @DisplayName("should return valid licenseKey with input csv file source")
     void should_return_valid_license_key_with_parameterized_csv_file_source(int numberOfSection, int sectionLength, int numOfCharacter, int numOfDigit) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     @ParameterizedTest(name = "[{index}] sections: {0} - sectionLength: {1} - numOfCharacter: {2} - numOfDigit: {3}")
     @MethodSource("provideValidArguments")
     @DisplayName("should return valid licenseKey with input using method source")
     void should_return_valid_license_key_with_parameterized_method_source(int numberOfSection, int sectionLength, int numOfCharacter, int numOfDigit) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     private static Stream<Arguments> provideValidArguments() {
@@ -122,15 +86,9 @@ class LicenseKeyGeneratorTest {
     @MethodSource
     @DisplayName("should return valid licenseKey with input using method source contain same test method name")
     void should_return_valid_license_key_with_parameterized_method_source_same_test_method_name(int numberOfSection, int sectionLength, int numOfCharacter, int numOfDigit) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     private static Stream<Arguments> should_return_valid_license_key_with_parameterized_method_source_same_test_method_name() {
@@ -144,15 +102,9 @@ class LicenseKeyGeneratorTest {
     @MethodSource("com.springboot.project.share.MethodSources#getValidArguments")
     @DisplayName("should return valid licenseKey with input using method source with sharing methods")
     void should_return_valid_license_key_with_parameterized_method_source_with_sharing_methods(int numberOfSection, int sectionLength, int numOfCharacter, int numOfDigit) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < numberOfSection; i++) {
-            builder.append(SECTION_PATTERN);
-            if (i < numberOfSection - 1) {
-                builder.append("-");
-            }
-        }
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
         LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
     }
 
     @Execution(ExecutionMode.CONCURRENT)
@@ -171,6 +123,12 @@ class LicenseKeyGeneratorTest {
                 "numOfCharacter: " + numOfCharacter + " " +
                 "numOfDigit: " + numOfDigit + " "
         );
+        String sectionPattern = this.generateSectionPattern(numberOfSection);
+        LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
+        Assertions.assertTrue(generator.generate().matches(sectionPattern));
+    }
+
+    private String generateSectionPattern(int numberOfSection) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < numberOfSection; i++) {
             builder.append(SECTION_PATTERN);
@@ -178,8 +136,7 @@ class LicenseKeyGeneratorTest {
                 builder.append("-");
             }
         }
-        LicenseKeyGenerator generator = new LicenseKeyGenerator(numberOfSection, sectionLength, numOfCharacter, numOfDigit);
-        Assertions.assertTrue(generator.generate().matches(builder.toString()));
+        return builder.toString();
     }
 
 }
