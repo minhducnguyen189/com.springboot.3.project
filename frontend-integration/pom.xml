@@ -15,7 +15,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <angular.project.location>../angular-sample-project</angular.project.location>
+        <angular.project.location>../multiple-angular-apps</angular.project.location>
         <angular.project.node.installation>${project.basedir}/target</angular.project.node.installation>
     </properties>
 
@@ -68,7 +68,29 @@
                         </goals>
                         <phase>install</phase>
                         <configuration>
-                            <arguments>run build</arguments>
+                            <arguments>run build:apps</arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/src/main/resources/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../multiple-angular-apps/dist/</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>
@@ -80,10 +102,7 @@
                 <configuration>
                     <filesets>
                         <fileset>
-                            <directory>${project.basedir}/src/main/resources/static/dist</directory>
-                        </fileset>
-                        <fileset>
-                            <directory>${angular.project.location}/node</directory>
+                            <directory>${project.basedir}/src/main/resources/static/</directory>
                         </fileset>
                     </filesets>
                 </configuration>

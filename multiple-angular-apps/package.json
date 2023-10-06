@@ -1,10 +1,11 @@
 {
-  "name": "angular-sample-project",
+  "name": "multiple-angular-apps",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:apps": "ng build first-angular-app --base-href=./ && ng build second-angular-app --base-href=./",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -23,7 +24,7 @@
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.2",
+    "@angular-devkit/build-angular": "^16.2.5",
     "@angular/cli": "~16.2.2",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
