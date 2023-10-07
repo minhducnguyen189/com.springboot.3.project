@@ -1,5 +1,6 @@
 package com.springboot.project.frontend.integration.config;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,22 +11,22 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StaticResourceConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private PathResourceFirstAppResolverConfig pathResourceFirstAppResolverConfig;
-    @Autowired
-    private PathResourceSecondAppResolverConfig pathResourceSecondAppResolverConfig;
+    private final PathResourceFirstAppResolverConfig pathResourceFirstAppResolverConfig;
+    private final PathResourceSecondAppResolverConfig pathResourceSecondAppResolverConfig;
+    private final ApplicationConfigurationProperty appConfig;
 
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/app1/**")
-                .addResourceLocations("classpath:/static/first-angular-app/")
+        registry.addResourceHandler(appConfig.getFirstAngularApp().getResourceHandlerPath())
+                .addResourceLocations(appConfig.getFirstAngularApp().getResourceLocations())
                 .resourceChain(true)
                 .addResolver(this.pathResourceFirstAppResolverConfig);
-        registry.addResourceHandler("/app2/**")
-                .addResourceLocations("classpath:/static/second-angular-app/")
+        registry.addResourceHandler(appConfig.getSecondAngularApp().getResourceHandlerPath())
+                .addResourceLocations(appConfig.getSecondAngularApp().getResourceLocations())
                 .resourceChain(true)
                 .addResolver(this.pathResourceSecondAppResolverConfig);
 
@@ -45,14 +46,15 @@ public class StaticResourceConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/app1/").setViewName("forward:/app1/index.html");
-        registry.addViewController("/app2/").setViewName("forward:/app2/index.html");
-
+        registry.addViewController(appConfig.getFirstAngularApp().getViewController())
+                .setViewName(appConfig.getFirstAngularApp().getViewName());
+        registry.addViewController(appConfig.getSecondAngularApp().getViewController())
+                .setViewName(appConfig.getSecondAngularApp().getViewName());
     }
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix("/v1/**", HandlerTypePredicate.forAnnotation(RestController.class));
+        configurer.addPathPrefix(appConfig.getApiBasePath(), HandlerTypePredicate.forAnnotation(RestController.class));
     }
 
 
