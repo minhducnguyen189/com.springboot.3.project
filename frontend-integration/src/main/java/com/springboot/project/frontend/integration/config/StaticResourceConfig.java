@@ -21,12 +21,12 @@ public class StaticResourceConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(appConfig.getFirstAngularApp().getResourceHandlerPath())
-                .addResourceLocations(appConfig.getFirstAngularApp().getResourceLocations())
+        registry.addResourceHandler(appConfig.getFrontEnd().getFirstAngularApp().getResourceHandlerPath())
+                .addResourceLocations(appConfig.getFrontEnd().getFirstAngularApp().getResourceLocations())
                 .resourceChain(true)
                 .addResolver(this.pathResourceFirstAppResolverConfig);
-        registry.addResourceHandler(appConfig.getSecondAngularApp().getResourceHandlerPath())
-                .addResourceLocations(appConfig.getSecondAngularApp().getResourceLocations())
+        registry.addResourceHandler(appConfig.getFrontEnd().getSecondAngularApp().getResourceHandlerPath())
+                .addResourceLocations(appConfig.getFrontEnd().getSecondAngularApp().getResourceLocations())
                 .resourceChain(true)
                 .addResolver(this.pathResourceSecondAppResolverConfig);
 
@@ -46,15 +46,15 @@ public class StaticResourceConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(appConfig.getFirstAngularApp().getViewController())
-                .setViewName(appConfig.getFirstAngularApp().getViewName());
-        registry.addViewController(appConfig.getSecondAngularApp().getViewController())
-                .setViewName(appConfig.getSecondAngularApp().getViewName());
+        registry.addViewController(appConfig.getFrontEnd().getFirstAngularApp().getViewController())
+                .setViewName(appConfig.getFrontEnd().getFirstAngularApp().getViewName());
+        registry.addViewController(appConfig.getFrontEnd().getSecondAngularApp().getViewController())
+                .setViewName(appConfig.getFrontEnd().getSecondAngularApp().getViewName());
     }
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
-        configurer.addPathPrefix(appConfig.getApiBasePath(), HandlerTypePredicate.forAnnotation(RestController.class));
+        configurer.addPathPrefix(appConfig.getBackEnd().getApiBasePath(), HandlerTypePredicate.forAnnotation(RestController.class));
     }
 
 

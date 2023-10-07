@@ -19,7 +19,7 @@ public class PathResourceSecondAppResolverConfig extends PathResourceResolver {
     public Resource getResource(String resourcePath, Resource location) throws IOException {
         Resource requestedResource = location.createRelative(resourcePath);
         return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
-                : new ClassPathResource(this.appConfig.getSecondAngularApp().getIndexLocation());
+                : new ClassPathResource(this.appConfig.getFrontEnd().getSecondAngularApp().getIndexLocation());
     }
 
 }

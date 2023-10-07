@@ -1,18 +1,20 @@
 
 application:
   config:
-    api-base-path: "/v1/**"
-    first-angular-app:
-      resource-handler-path: "/app1/**"
-      resource-locations:
-        - "classpath:/static/first-angular-app/"
-      index-location: "/static/first-angular-app/index.html"
-      view-controller: "/app1/"
-      view-name: "forward:/app1/index.html"
-    second-angular-app:
-      resource-handler-path: "/app2/**"
-      resource-locations:
-        - "classpath:/static/second-angular-app/"
-      index-location: "/static/second-angular-app/index.html"
-      view-controller: "/app2/"
-      view-name: "forward:/app2/index.html"
+    back-end:
+      api-base-path: "/v1/**"
+    front-end:
+      first-angular-app:
+        resource-handler-path: "/app1/**"
+        resource-locations:
+          - "classpath:/static/first-angular-app/"
+        index-location: "/static/first-angular-app/index.html"
+        view-controller: "/app1/"
+        view-name: "forward:/app1/index.html"
+      second-angular-app:
+        resource-handler-path: "/app2/**"
+        resource-locations:
+          - "classpath:/static/second-angular-app/"
+        index-location: "/static/second-angular-app/index.html"
+        view-controller: "/app2/"
+        view-name: "forward:/app2/index.html"

@@ -11,9 +11,21 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "application.config")
 public class ApplicationConfigurationProperty {
 
-    private String apiBasePath;
-    private AngularAppConfig firstAngularApp;
-    private AngularAppConfig secondAngularApp;
+   private BackEnd backEnd;
+   private FrontEnd frontEnd;
+
+    @Getter
+    @Setter
+    public static class BackEnd {
+        private String apiBasePath;
+    }
+
+    @Getter
+    @Setter
+    public static class FrontEnd {
+        private AngularAppConfig firstAngularApp;
+        private AngularAppConfig secondAngularApp;
+    }
 
     @Getter
     @Setter
