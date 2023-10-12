@@ -18,7 +18,7 @@ public class PathResourceFirstAppResolverConfig extends PathResourceResolver {
     @Override
     public Resource getResource(String resourcePath, Resource location) throws IOException {
         Resource requestedResource = location.createRelative(resourcePath);
-        return requestedResource.exists() && requestedResource.isReadable() ? requestedResource
+        return requestedResource.exists() && requestedResource.isReadable() && !resourcePath.equals("index.html") ? requestedResource
                 : new ClassPathResource(this.appConfig.getFrontEnd().getFirstAngularApp().getIndexLocation());
     }
 }

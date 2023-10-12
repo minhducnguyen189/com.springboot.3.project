@@ -3,6 +3,7 @@ application:
   config:
     back-end:
       api-base-path: "/v1/**"
+      server-base-path: "http://localhost:8080"
     front-end:
       first-angular-app:
         resource-handler-path: "/app1/**"
