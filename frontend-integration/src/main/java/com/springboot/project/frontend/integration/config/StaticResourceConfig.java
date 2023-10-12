@@ -9,10 +9,13 @@ import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class StaticResourceConfig implements WebMvcConfigurer {
+
+    private static final String DELIMITER = "/";
 
     private final PathResourceFirstAppResolverConfig pathResourceFirstAppResolverConfig;
     private final PathResourceSecondAppResolverConfig pathResourceSecondAppResolverConfig;
@@ -46,15 +49,35 @@ public class StaticResourceConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(appConfig.getFrontEnd().getFirstAngularApp().getViewController())
-                .setViewName(appConfig.getFrontEnd().getFirstAngularApp().getViewName());
-        registry.addViewController(appConfig.getFrontEnd().getSecondAngularApp().getViewController())
-                .setViewName(appConfig.getFrontEnd().getSecondAngularApp().getViewName());
+        String app1ViewController = appConfig.getFrontEnd().getFirstAngularApp().getViewController();
+        String app1ViewName = appConfig.getFrontEnd().getSecondAngularApp().getViewName();
+        String app2ViewController = appConfig.getFrontEnd().getSecondAngularApp().getViewController();
+        String app2ViewName = appConfig.getFrontEnd().getSecondAngularApp().getViewName();
+
+        registry.addViewController(app1ViewController)
+                .setViewName(this.getRedirectViewName(app1ViewController));
+        registry.addViewController(app2ViewController)
+                .setViewName(this.getRedirectViewName(app2ViewController));
+        registry.addViewController(app1ViewController + DELIMITER)
+                .setViewName(this.getForwardViewName(app1ViewName));
+        registry.addViewController(app2ViewController  + DELIMITER)
+                .setViewName(this.getForwardViewName(app2ViewName));
     }
 
     @Override
     public void configurePathMatch(PathMatchConfigurer configurer) {
         configurer.addPathPrefix(appConfig.getBackEnd().getApiBasePath(), HandlerTypePredicate.forAnnotation(RestController.class));
+    }
+
+    private String getRedirectViewName(String viewController) {
+        return UrlBasedViewResolver.REDIRECT_URL_PREFIX +
+                appConfig.getBackEnd().getServerBasePath() +
+                viewController +
+                DELIMITER;
+    }
+
+    private String getForwardViewName(String viewName) {
+        return UrlBasedViewResolver.FORWARD_URL_PREFIX + viewName;
     }
 
 

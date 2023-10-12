@@ -18,6 +18,7 @@ public class ApplicationConfigurationProperty {
     @Setter
     public static class BackEnd {
         private String apiBasePath;
+        private String serverBasePath;
     }
 
     @Getter

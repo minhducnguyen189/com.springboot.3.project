@@ -10,12 +10,12 @@ application:
         resource-locations:
           - "classpath:/static/first-angular-app/"
         index-location: "/static/first-angular-app/index.html"
-        view-controller: "/app1/"
-        view-name: "forward:/app1/index.html"
+        view-controller: "/app1"
+        view-name: "/app1/index.html"
       second-angular-app:
         resource-handler-path: "/app2/**"
         resource-locations:
           - "classpath:/static/second-angular-app/"
         index-location: "/static/second-angular-app/index.html"
-        view-controller: "/app2/"
-        view-name: "forward:/app2/index.html"
+        view-controller: "/app2"
+        view-name: "/app2/index.html"
