@@ -6,6 +6,7 @@ import com.springboot.project.upload.download.files.model.FileContentDto;
 import com.springboot.project.upload.download.files.model.FileDto;
 import com.springboot.project.upload.download.files.repository.FileDBRepository;
 import lombok.AllArgsConstructor;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -32,6 +33,7 @@ public class FileStorageService {
         String fileName = StringUtils.cleanPath(uploadFile.getOriginalFilename());
         FileDB fileDB = new FileDB();
         fileDB.setFileName(fileName);
+        fileDB.setFileExtension(FilenameUtils.getExtension(fileName));
         fileDB.setFileType(uploadFile.getContentType());
         try {
             fileDB.setFileData(uploadFile.getBytes());
@@ -61,6 +63,7 @@ public class FileStorageService {
         fileDto.setFileType(fileDB.getFileType());
         fileDto.setCreatedDate(fileDB.getCreatedDate());
         fileDto.setUpdatedDate(fileDB.getUpdatedDate());
+        fileDto.setFileExtension(fileDB.getFileExtension());
         fileDto.setLocation(this.buildLocationUrl(fileDB.getId()));
         return fileDto;
     }

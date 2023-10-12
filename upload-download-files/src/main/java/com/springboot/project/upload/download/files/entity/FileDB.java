@@ -19,6 +19,7 @@ public class FileDB {
 
     private String fileName;
     private String fileType;
+    private String fileExtension;
     private byte[] fileData;
     private Date createdDate;
     private Date updatedDate;
