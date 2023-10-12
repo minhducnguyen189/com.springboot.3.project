@@ -1,6 +1,8 @@
 package com.springboot.project.upload.download.files.service;
 
+import com.springboot.project.upload.download.files.config.ApplicationProperty;
 import com.springboot.project.upload.download.files.entity.FileDB;
+import com.springboot.project.upload.download.files.model.FileContentDto;
 import com.springboot.project.upload.download.files.model.FileDto;
 import com.springboot.project.upload.download.files.repository.FileDBRepository;
 import lombok.AllArgsConstructor;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 public class FileStorageService {
 
     private final FileDBRepository fileDBRepository;
+    private final ApplicationProperty applicationProperty;
 
     public FileDto saveFile(MultipartFile uploadFile) {
         if (Objects.isNull(uploadFile.getOriginalFilename())) {
@@ -38,10 +41,10 @@ public class FileStorageService {
         return this.mapToFileDto(this.fileDBRepository.save(fileDB));
     }
 
-    public byte[] getFileData(UUID id) {
+    public FileContentDto getFileData(UUID id) {
         Optional<FileDB> fileDB = this.fileDBRepository.findById(id);
         if (fileDB.isPresent()) {
-            return fileDB.get().getFileData();
+            return this.mapToFileContentDto(fileDB.get());
         }
         throw new RuntimeException("File Not Found");
     }
@@ -58,7 +61,21 @@ public class FileStorageService {
         fileDto.setFileType(fileDB.getFileType());
         fileDto.setCreatedDate(fileDB.getCreatedDate());
         fileDto.setUpdatedDate(fileDB.getUpdatedDate());
+        fileDto.setLocation(this.buildLocationUrl(fileDB.getId()));
         return fileDto;
+    }
+
+    private FileContentDto mapToFileContentDto(FileDB fileDB) {
+        FileContentDto fileContentDto = new FileContentDto();
+        fileContentDto.setFileName(fileDB.getFileName());
+        fileContentDto.setContent(fileDB.getFileData());
+        return fileContentDto;
+    }
+
+    private String buildLocationUrl(UUID fileId) {
+        return this.applicationProperty.getServerBaseUrl()
+                + this.applicationProperty.getGetFileApi()
+                + fileId;
     }
 
 }

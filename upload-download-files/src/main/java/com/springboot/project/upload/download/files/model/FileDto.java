@@ -15,5 +15,6 @@ public class FileDto {
     private String fileType;
     private Date createdDate;
     private Date updatedDate;
+    private String location;
 
 }

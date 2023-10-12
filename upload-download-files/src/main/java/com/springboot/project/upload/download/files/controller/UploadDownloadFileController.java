@@ -1,10 +1,12 @@
 package com.springboot.project.upload.download.files.controller;
 
+import com.springboot.project.upload.download.files.model.FileContentDto;
 import com.springboot.project.upload.download.files.model.FileDto;
 import com.springboot.project.upload.download.files.service.FileStorageService;
 import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
+@CrossOrigin("*")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @RestController
 public class UploadDownloadFileController {
@@ -25,9 +28,12 @@ public class UploadDownloadFileController {
         return ResponseEntity.status(HttpStatus.CREATED).body(this.fileStorageService.saveFile(uploadFile));
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/v1/files/{id}", produces = {MediaType.APPLICATION_PDF_VALUE, MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    @RequestMapping(method = RequestMethod.GET, path = "/v1/files/{id}", produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<byte[]> downloadFile(@PathVariable("id") UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(this.fileStorageService.getFileData(id));
+        FileContentDto fileContentDto = this.fileStorageService.getFileData(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\"" + fileContentDto.getFileName() + "\"")
+                .body(fileContentDto.getContent());
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/v1/files", produces = MediaType.APPLICATION_JSON_VALUE)
