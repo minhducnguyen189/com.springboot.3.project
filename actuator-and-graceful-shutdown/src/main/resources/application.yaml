@@ -1,0 +1,19 @@
+
+server:
+  shutdown: graceful
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 35s
+
+management:
+  endpoints:
+    jackson:
+      isolated-object-mapper: false
+  health:
+    probes:
+      enabled: true
+    livenessstate:
+      enabled: true
+    readinessState:
+      enabled: true

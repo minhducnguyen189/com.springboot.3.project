@@ -13,6 +13,7 @@
         <module>frontend-integration</module>
         <module>junit-test-5</module>
         <module>property-based-testing</module>
+        <module>actuator-and-graceful-shutdown</module>
     </modules>
 
     <properties>
