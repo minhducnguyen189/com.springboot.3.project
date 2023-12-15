@@ -1,0 +1,200 @@
+openapi: 3.0.3
+info:
+  title: Swagger Customer - OpenAPI 3.0
+  description: Everything about sample hibernate second level cache
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore3.swagger.io/api/v1
+tags:
+  - name: product
+    description: Everything about your product
+  - name: file
+    description: Everything about your file
+paths:
+  /v1/products:
+    post:
+      tags:
+        - product
+      summary: Add a Product to database
+      description: Add a Product to database
+      operationId: addProduct
+      requestBody:
+        description: Create a Product and save to database
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                files:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                json:
+                  $ref: '#/components/schemas/ProductRequest'
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /v1/products/{product-id}/files/{file-id}:
+    get:
+      tags:
+        - file
+      summary: Get file content from database
+      description: Get file content from database
+      operationId: getFileData
+      parameters:
+      - name: product-id
+        in: path
+        description: ID of product
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - name: file-id
+        in: path
+        description: ID of file
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: successful get operation
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+
+components:
+  schemas:
+    ProductDetail:
+      allOf:
+        - $ref: '#/components/schemas/ProductRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            createdDate:
+              type: string
+              format: date-time
+            updatedDate:
+              type: string
+              format: date-time
+            images:
+              type: array
+              items:
+                $ref: '#/components/schemas/FileDetail'
+
+    ProductRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        summary:
+          type: string
+        description:
+          type: string
+        price:
+          type: integer
+          format: int64
+        rating:
+          type: integer
+          format: int32
+        categories:
+          type: array
+          items:
+            type: string
+
+    FileResourceDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fileName:
+          type: string
+        fileExtension:
+          type: string
+        mediaType:
+          type: string
+        fileData:
+          type: string
+          format: binary
+
+    FileDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        fileName:
+          type: string
+        fileExtension:
+          type: string
+        mediaType:
+          type: string
+        fileUrl:
+          type: string
+        createdDate:
+          type: string
+          format: date-time
+        updatedDate:
+          type: string
+          format: date-time
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        status:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
