@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ProductController implements ProductApi {
