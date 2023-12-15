@@ -115,10 +115,10 @@ components:
             id:
               type: string
               format: uuid
-            createdDate:
+            createdAt:
               type: string
               format: date-time
-            updatedDate:
+            updatedAt:
               type: string
               format: date-time
             images:
@@ -176,10 +176,10 @@ components:
           type: string
         fileUrl:
           type: string
-        createdDate:
+        createdAt:
           type: string
           format: date-time
-        updatedDate:
+        updatedAt:
           type: string
           format: date-time
 
