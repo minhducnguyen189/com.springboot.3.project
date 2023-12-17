@@ -3,11 +3,15 @@ package com.springboot.project.service;
 import com.springboot.project.entity.FileStorageEntity;
 import com.springboot.project.entity.ProductEntity;
 import com.springboot.project.generated.model.ProductDetail;
+import com.springboot.project.generated.model.ProductFilterResult;
 import com.springboot.project.generated.model.ProductRequest;
 import com.springboot.project.mapper.ProductMapper;
 import com.springboot.project.repository.ProductRepository;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +35,18 @@ public class ProductService {
         ProductEntity product = ProductMapper.MAPPER.toProductEntity(productRequest);
         product.setFiles(this.buildFileStorageEntity(files, product));
         return ProductMapper.MAPPER.toProductDetail(this.productRepository.save(product));
+    }
+
+    public ProductFilterResult getProducts(Integer pageNumber,Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        ProductFilterResult productFilterResult = new ProductFilterResult();
+        Page<ProductEntity> page = this.productRepository.findAll(pageable);
+        Long count = this.productRepository.count();
+        productFilterResult.setProducts(ProductMapper.MAPPER.toProductDetails(page.getContent()));
+        productFilterResult.setFoundNumber(count);
+        productFilterResult.setTotal(count);
+        return productFilterResult;
+
     }
 
     private List<FileStorageEntity> buildFileStorageEntity(List<MultipartFile> files, ProductEntity product) {

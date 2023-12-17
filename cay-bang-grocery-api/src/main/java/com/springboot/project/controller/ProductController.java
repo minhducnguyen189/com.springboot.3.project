@@ -4,6 +4,7 @@ import com.springboot.project.config.ApplicationConfig;
 import com.springboot.project.generated.api.ProductApi;
 import com.springboot.project.generated.model.FileDetail;
 import com.springboot.project.generated.model.ProductDetail;
+import com.springboot.project.generated.model.ProductFilterResult;
 import com.springboot.project.generated.model.ProductRequest;
 import com.springboot.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ProductController implements ProductApi {
@@ -36,6 +38,13 @@ public class ProductController implements ProductApi {
                     MessageFormat.format(config.getGetFileApi(), productDetail.getId(), fileDetail.getId()));
         }
         return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
+    }
+
+    @Override
+    public ResponseEntity<ProductFilterResult> getProducts(Optional<Integer> pageNumber, Optional<Integer> pageSize) {
+        ProductFilterResult productFilterResult = this.productService
+                .getProducts(pageNumber.orElse(0), pageSize.orElse(18));
+        return new ResponseEntity<>(productFilterResult, HttpStatus.OK);
     }
 
 }

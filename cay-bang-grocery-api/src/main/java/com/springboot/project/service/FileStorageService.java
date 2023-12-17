@@ -5,8 +5,6 @@ import com.springboot.project.generated.model.FileResourceDetail;
 import com.springboot.project.mapper.FileStorageMapper;
 import com.springboot.project.repository.FileStorageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

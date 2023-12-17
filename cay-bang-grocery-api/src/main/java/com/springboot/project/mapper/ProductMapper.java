@@ -18,6 +18,8 @@ public interface ProductMapper {
 
     ProductEntity toProductEntity(ProductRequest productRequest);
 
+    List<ProductDetail> toProductDetails(List<ProductEntity> productEntities);
+
     @Mapping(target = "images", source = "files")
     ProductDetail toProductDetail(ProductEntity productEntity);
 

@@ -60,7 +60,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+    get:
+      tags:
+        - product
+      summary: get products from database
+      description: get products with pagination
+      operationId: getProducts
+      parameters:
+        - name: pageNumber
+          in: path
+          description: page number
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: path
+          description: page size
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductFilterResult'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /v1/products/{product-id}/files/{file-id}:
     get:
       tags:
@@ -107,6 +146,20 @@ paths:
 
 components:
   schemas:
+    ProductFilterResult:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductDetail'
+        foundNumber:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+
     ProductDetail:
       allOf:
         - $ref: '#/components/schemas/ProductRequest'
