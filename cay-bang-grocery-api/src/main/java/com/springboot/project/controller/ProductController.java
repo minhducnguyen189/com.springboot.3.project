@@ -10,6 +10,7 @@ import com.springboot.project.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(value = "*")
 @RestController
 public class ProductController implements ProductApi {
 
@@ -44,6 +46,12 @@ public class ProductController implements ProductApi {
     public ResponseEntity<ProductFilterResult> getProducts(Optional<Integer> pageNumber, Optional<Integer> pageSize) {
         ProductFilterResult productFilterResult = this.productService
                 .getProducts(pageNumber.orElse(0), pageSize.orElse(18));
+        for(ProductDetail productDetail: productFilterResult.getProducts()) {
+            productDetail.getImages().forEach(image -> {
+                image.setFileUrl(config.getServerBaseUrl() +
+                        MessageFormat.format(config.getGetFileApi(), productDetail.getId(), image.getId()));
+            });
+        }
         return new ResponseEntity<>(productFilterResult, HttpStatus.OK);
     }
 
