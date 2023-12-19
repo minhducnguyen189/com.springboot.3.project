@@ -18,7 +18,6 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(value = "*")
 @RestController
 public class ProductController implements ProductApi {
 
