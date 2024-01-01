@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class ProductEntity extends BaseEntity {
 
     @Generated

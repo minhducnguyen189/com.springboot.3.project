@@ -201,6 +201,9 @@ components:
             id:
               type: string
               format: uuid
+            productNumber:
+              type: integer
+              format: int64
             createdAt:
               type: string
               format: date-time
@@ -280,6 +283,20 @@ components:
           type: string
         email:
           type: string
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemRequest'
+
+    OrderItemRequest:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          format: int64
+        productNumber:
+          type: integer
+          format: int64
 
     ErrorResponse:
       type: object
