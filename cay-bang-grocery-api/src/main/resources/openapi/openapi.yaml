@@ -17,6 +17,8 @@ servers:
 tags:
   - name: product
     description: Everything about your product
+  - name: order
+    description: Everything about your order
   - name: file
     description: Everything about your file
 paths:
@@ -142,7 +144,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  /v1/orders:
+    post:
+      tags:
+        - order
+      summary: create an order to database
+      description: create an order to database
+      operationId: createOrder
+      requestBody:
+        description: create an order and save to database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductRequest'
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductDetail'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 
 components:
   schemas:
@@ -235,6 +268,18 @@ components:
         updatedAt:
           type: string
           format: date-time
+
+    OrderRequest:
+      type: object
+      properties:
+        customerName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
 
     ErrorResponse:
       type: object
