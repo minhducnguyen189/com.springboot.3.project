@@ -28,8 +28,8 @@ CREATE TABLE order_item (
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     quantity INTEGER NULL,
-    order_id uuid NOT NULL,
-    product_id uuid NOT NULL
+    order_id uuid NULL,
+    product_id uuid NULL
 );
 
 CREATE TABLE file_storage (

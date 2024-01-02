@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -66,6 +67,14 @@ public class ProductService {
         productFilterResult.setTotal(count);
         return productFilterResult;
 
+    }
+
+    public ProductEntity getProductByProductNumber(Long productNumber) {
+        ProductEntity product = this.productRepository.findByProductNumber(productNumber);
+        if (Objects.nonNull(product)) {
+            return product;
+        }
+        throw new RuntimeException("Product Not Found!");
     }
 
     private List<FileStorageEntity> buildFileStorageEntity(List<MultipartFile> files, ProductEntity product) {

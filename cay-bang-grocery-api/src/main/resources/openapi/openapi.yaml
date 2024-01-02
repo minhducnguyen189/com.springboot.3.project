@@ -156,14 +156,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductRequest'
+              $ref: '#/components/schemas/OrderRequest'
       responses:
         "201":
           description: successful created operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ProductDetail'
+                $ref: '#/components/schemas/OrderDetail'
         "400":
           description: bad request operation
         "404":
@@ -271,6 +271,66 @@ components:
         updatedAt:
           type: string
           format: date-time
+
+    OrderDetail:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        orderNumber:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        customerName:
+          type: string
+        address:
+          type: string
+        phoneNumber:
+          type: string
+        email:
+          type: string
+        totalPrice:
+          type: integer
+          format: int64
+        orderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItemDetail'
+
+    OrderItemDetail:
+      type: object
+      properties:
+        quantity:
+          type: integer
+          format: int64
+        totalPrice:
+          type: integer
+          format: int64
+        pricePerItem:
+          type: integer
+          format: int64
+        productNumber:
+          type: integer
+          format: int64
+        name:
+          type: string
+        summary:
+          type: string
+        description:
+          type: string
+        rating:
+          type: integer
+          format: int32
+        categories:
+          type: array
+          items:
+            type: string
 
     OrderRequest:
       type: object
