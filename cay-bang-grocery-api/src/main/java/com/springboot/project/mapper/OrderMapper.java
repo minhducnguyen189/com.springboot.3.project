@@ -21,6 +21,8 @@ public interface OrderMapper {
 
     OrderEntity toOrderEntity(OrderRequest orderRequest);
 
+    List<OrderDetail> toOrderDetails(List<OrderEntity> orderEntities);
+
     @Mapping(target = "totalPrice", source = "items")
     @Mapping(target = "orderItems", source = "items")
     OrderDetail toOrderDetail(OrderEntity orderEntity);

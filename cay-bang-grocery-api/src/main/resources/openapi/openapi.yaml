@@ -176,9 +176,62 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+    get:
+      tags:
+        - order
+      summary: get orders from database
+      description: get orders with pagination
+      operationId: getOrders
+      parameters:
+        - name: pageNumber
+          in: path
+          description: page number
+          required: false
+          schema:
+            type: integer
+            format: int32
+        - name: pageSize
+          in: path
+          description: page size
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderFilterResult'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
+    OrderFilterResult:
+      type: object
+      properties:
+        orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderDetail'
+        foundNumber:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+
     ProductFilterResult:
       type: object
       properties:
