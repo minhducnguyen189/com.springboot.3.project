@@ -3,7 +3,6 @@ package com.springboot.project.upload.download.files.controller;
 import com.springboot.project.upload.download.files.model.FileContentDto;
 import com.springboot.project.upload.download.files.model.FileDto;
 import com.springboot.project.upload.download.files.service.FileStorageService;
-import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
