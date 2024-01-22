@@ -17,12 +17,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URI;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class ProductService {
@@ -41,7 +41,7 @@ public class ProductService {
         ProductEntity product = ProductMapper.MAPPER.toProductEntity(productRequest);
         product.setFiles(this.buildFileStorageEntity(files, product));
         ProductDetail productDetail = ProductMapper.MAPPER.toProductDetail(this.productRepository.save(product));
-        for (FileDetail fileDetail: productDetail.getImages()) {
+        for (FileDetail fileDetail : productDetail.getImages()) {
             fileDetail.setFileUrl(applicationConfig.getServerBaseUrl() +
                     MessageFormat.format(applicationConfig.getGetFileApi(), productDetail.getId(), fileDetail.getId()));
         }
@@ -57,8 +57,13 @@ public class ProductService {
         List<ProductDetail> productDetails = ProductMapper.MAPPER.toProductDetails(page.getContent());
         for (ProductDetail productDetail : productDetails) {
             productDetail.getImages().forEach(image -> {
-                image.setFileUrl(applicationConfig.getServerBaseUrl() +
-                        MessageFormat.format(applicationConfig.getGetFileApi(), productDetail.getId(), image.getId()));
+                Map<String, String> params = new HashMap<>();
+                params.put("product-id", String.valueOf(productDetail.getId()));
+                params.put("file-id", String.valueOf(image.getId()));
+                URI fileUri = UriComponentsBuilder
+                        .fromUriString(this.applicationConfig.getServerBaseUrl() + this.applicationConfig.getGetFileApi())
+                        .build(params);
+                image.setFileUrl(String.valueOf(fileUri));
             });
         }
         productFilterResult.setProducts(productDetails);
@@ -78,7 +83,7 @@ public class ProductService {
 
     private List<FileStorageEntity> buildFileStorageEntity(List<MultipartFile> files, ProductEntity product) {
         List<FileStorageEntity> fileStorageEntities = new ArrayList<>();
-        for (MultipartFile file: files) {
+        for (MultipartFile file : files) {
             if (Objects.isNull(file.getOriginalFilename())) {
                 throw new IllegalArgumentException("FileName can not be null");
             }

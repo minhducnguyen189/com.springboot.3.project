@@ -2,7 +2,7 @@
 
 application:
   server-base-url: "http://localhost:8080"
-  get-file-api: "/v1/products/{0}/files/{1}"
+  get-file-api: "/v1/products/{product-id}/files/{file-id}"
 
 spring:
   servlet:
