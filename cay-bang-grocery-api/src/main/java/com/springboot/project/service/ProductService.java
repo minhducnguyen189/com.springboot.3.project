@@ -41,10 +41,7 @@ public class ProductService {
         ProductEntity product = ProductMapper.MAPPER.toProductEntity(productRequest);
         product.setFiles(this.buildFileStorageEntity(files, product));
         ProductDetail productDetail = ProductMapper.MAPPER.toProductDetail(this.productRepository.save(product));
-        for (FileDetail fileDetail : productDetail.getImages()) {
-            fileDetail.setFileUrl(applicationConfig.getServerBaseUrl() +
-                    MessageFormat.format(applicationConfig.getGetFileApi(), productDetail.getId(), fileDetail.getId()));
-        }
+        this.setFileUrl(productDetail);
         return productDetail;
     }
 
@@ -56,15 +53,7 @@ public class ProductService {
 
         List<ProductDetail> productDetails = ProductMapper.MAPPER.toProductDetails(page.getContent());
         for (ProductDetail productDetail : productDetails) {
-            productDetail.getImages().forEach(image -> {
-                Map<String, String> params = new HashMap<>();
-                params.put("product-id", String.valueOf(productDetail.getId()));
-                params.put("file-id", String.valueOf(image.getId()));
-                URI fileUri = UriComponentsBuilder
-                        .fromUriString(this.applicationConfig.getServerBaseUrl() + this.applicationConfig.getGetFileApi())
-                        .build(params);
-                image.setFileUrl(String.valueOf(fileUri));
-            });
+            this.setFileUrl(productDetail);
         }
         productFilterResult.setProducts(productDetails);
         productFilterResult.setFoundNumber(count);
@@ -101,6 +90,18 @@ public class ProductService {
             fileStorageEntities.add(fileDB);
         }
         return fileStorageEntities;
+    }
+
+    private void setFileUrl(ProductDetail productDetail) {
+        productDetail.getImages().forEach(image -> {
+            Map<String, String> params = new HashMap<>();
+            params.put("product-id", String.valueOf(productDetail.getId()));
+            params.put("file-id", String.valueOf(image.getId()));
+            URI fileUri = UriComponentsBuilder
+                    .fromUriString(this.applicationConfig.getServerBaseUrl() + this.applicationConfig.getGetFileApi())
+                    .build(params);
+            image.setFileUrl(String.valueOf(fileUri));
+        });
     }
 
 }
