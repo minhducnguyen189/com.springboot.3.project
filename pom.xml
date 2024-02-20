@@ -15,6 +15,7 @@
         <module>property-based-testing</module>
         <module>actuator-and-graceful-shutdown</module>
         <module>cay-bang-grocery-api</module>
+        <module>simple-otp</module>
     </modules>
 
     <properties>
