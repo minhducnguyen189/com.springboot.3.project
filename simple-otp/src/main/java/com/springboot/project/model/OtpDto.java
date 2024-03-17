@@ -11,5 +11,6 @@ public class OtpDto {
 
     private String otpCode;
     private LocalDateTime expirationTime;
+    private Integer triedNumber;
 
 }

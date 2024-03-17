@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class OtpService {
 
+    private static final Integer MAXIMUM_TRIED_NUMBER = 5;
     private final Map<String, OtpDto> otpStorage = new ConcurrentHashMap<>();
 
     public String getOtpCode(String email) {
@@ -19,22 +20,37 @@ public class OtpService {
         OtpDto otpDto = new OtpDto();
         otpDto.setOtpCode(otpCode);
         otpDto.setExpirationTime(LocalDateTime.now().plusMinutes(5));
+        otpDto.setTriedNumber(0);
         this.otpStorage.remove(email);
         this.otpStorage.put(email, otpDto);
         return otpCode;
     }
 
     public String verifyOtpCode(String email, String otpCode) {
-        if (this.checkValidOtp(email, otpCode)) {
+        OtpDto storedOtp = otpStorage.get(email);
+        if (this.checkValidOtp(storedOtp, otpCode)) {
+            this.otpStorage.remove(email);
             return "OTP verified successfully: This is the secret message!";
         } else {
-            return "Invalid OTP or expired please try input your OTP again or regenerate OTP";
+            if (storedOtp != null) {
+                Integer currentTriedNumber = storedOtp.getTriedNumber();
+                if (currentTriedNumber < 5) {
+                    storedOtp.setTriedNumber(currentTriedNumber + 1);
+                    this.otpStorage.put(email, storedOtp);
+                } else {
+                    this.otpStorage.remove(email);
+                    return "OTP reached more than 5 tried, please request another OPT code!";
+                }
+                return "OTP is not correct or expired, please try again!";
+            }
+            return "Not found! please request a new OTP code!";
         }
     }
 
-    private boolean checkValidOtp(String email, String otpCode) {
-        OtpDto storedOtp = otpStorage.get(email);
-        if (storedOtp != null && storedOtp.getExpirationTime().isAfter(LocalDateTime.now())) {
+    private boolean checkValidOtp(OtpDto storedOtp, String otpCode) {
+        if (storedOtp != null &&
+                storedOtp.getExpirationTime().isAfter(LocalDateTime.now()) &&
+                storedOtp.getTriedNumber() < 5) {
             return storedOtp.getOtpCode().equals(otpCode);
         }
         return false;
