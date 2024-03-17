@@ -16,6 +16,7 @@
         <module>actuator-and-graceful-shutdown</module>
         <module>cay-bang-grocery-api</module>
         <module>simple-otp</module>
+        <module>spring-aop-before-advice</module>
     </modules>
 
     <properties>
