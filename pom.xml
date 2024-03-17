@@ -17,6 +17,7 @@
         <module>cay-bang-grocery-api</module>
         <module>simple-otp</module>
         <module>spring-aop-before-advice</module>
+        <module>html-to-pdf</module>
     </modules>
 
     <properties>
