@@ -18,6 +18,7 @@
         <module>simple-otp</module>
         <module>spring-aop-before-advice</module>
         <module>html-to-pdf</module>
+        <module>spring-boot-email-starter</module>
     </modules>
 
     <properties>
