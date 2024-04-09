@@ -19,6 +19,7 @@
         <module>spring-aop-before-advice</module>
         <module>html-to-pdf</module>
         <module>spring-boot-email-starter</module>
+        <module>spring-aop-before-advice-specific-method</module>
     </modules>
 
     <properties>
