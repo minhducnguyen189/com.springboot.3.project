@@ -20,6 +20,7 @@
         <module>html-to-pdf</module>
         <module>spring-boot-email-starter</module>
         <module>spring-aop-before-advice-specific-method</module>
+        <module>pdfbox-integration</module>
     </modules>
 
     <properties>
