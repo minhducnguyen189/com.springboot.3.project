@@ -46,10 +46,10 @@ public class PdfGeneratorService {
             int pageHeight = (int) (PDRectangle.A4.getHeight() / rows);
 
             try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
-                PDDocument resultPage = new PDDocument();
-                PDPage myPage = new PDPage(PDRectangle.A4);
-                resultPage.addPage(myPage);
-                PDPageContentStream contentStream = new PDPageContentStream(resultPage, myPage,
+                PDDocument resultDocument = new PDDocument();
+                PDPage firstPage = new PDPage(PDRectangle.A4);
+                resultDocument.addPage(firstPage);
+                PDPageContentStream contentStream = new PDPageContentStream(resultDocument, firstPage,
                         PDPageContentStream.AppendMode.APPEND, true, false);
                 for (int i = 0; i < totalPageCount; i++) {
                     PDPage page = mainDocument.getPage(i);
@@ -59,13 +59,8 @@ public class PdfGeneratorService {
                     matrix.concatenate(Matrix.getScaleInstance((float) pageWidth / page.getCropBox().getWidth(),
                             (float) pageHeight / page.getCropBox().getHeight()));
 
-                    PDPageTree destinationPages = mainDocument.getDocumentCatalog().getPages();
                     LayerUtility layerUtility = new LayerUtility(mainDocument);
                     PDFormXObject pdFormXObject = layerUtility.importPageAsForm(mainDocument, i);
-                    AffineTransform affineTransform = new AffineTransform();
-                    PDPage destPage = destinationPages.get(0);
-                    layerUtility.wrapInSaveRestore(destPage);
-                    layerUtility.appendFormAsLayer(destPage, pdFormXObject, affineTransform, "child page" + i);
 
                     contentStream.saveGraphicsState();
                     contentStream.transform(matrix);
@@ -73,7 +68,7 @@ public class PdfGeneratorService {
                     contentStream.restoreGraphicsState();
                 }
                 contentStream.close();
-                resultPage.save(outputStream);
+                resultDocument.save(outputStream);
                 return new ByteArrayInputStream(outputStream.toByteArray());
             }
         } catch (IOException e) {
