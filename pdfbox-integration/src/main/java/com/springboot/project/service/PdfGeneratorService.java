@@ -18,62 +18,84 @@ import java.awt.geom.AffineTransform;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class PdfGeneratorService {
 
     public ByteArrayInputStream convertHtmlToPdf(String htmlContent) {
-        Document document = Jsoup.parse(htmlContent, "UTF-8");
-        document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
-        String documentHtml = document.html();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ITextRenderer renderer = new ITextRenderer();
-        renderer.setDocumentFromString(documentHtml);
-        renderer.layout();
-        renderer.createPDF(outputStream, false);
-        renderer.finishPDF();
+        List<byte[]> pdfByteArrays = this.generatePDFBytesList(htmlContent, 6);
+        return this.mergePDFs(pdfByteArrays, 2, 3);
+    }
 
-        try {
-        PDDocument templatePDF = Loader.loadPDF(outputStream.toByteArray());
-        PDDocument mainDocument = new PDDocument();
+    public ByteArrayInputStream mergePDFs(List<byte[]> pdfBytesList, int columns, int rows) {
+        try (PDDocument mainDocument = new PDDocument()) {
+            for (byte[] pdfBytes : pdfBytesList) {
+                try (PDDocument doc = Loader.loadPDF(pdfBytes)) {
+                    for (PDPage page : doc.getPages()) {
+                        PDPage importedPage = mainDocument.importPage(page);
+                        mainDocument.addPage(importedPage);
+                    }
+                }
+            }
 
-            PDPage samplePage = new PDPage(PDRectangle.A4);
-            mainDocument.addPage(samplePage);
+            int totalPageCount = mainDocument.getNumberOfPages();
 
-            PDPageContentStream contentStream = new PDPageContentStream(mainDocument,
-                    samplePage, PDPageContentStream.AppendMode.APPEND, true);
-            contentStream.beginText();
-            contentStream.endText();
-            contentStream.close();
+            int pageWidth = (int) (PDRectangle.A4.getWidth() / columns);
+            int pageHeight = (int) (PDRectangle.A4.getHeight() / rows);
 
-            PDPageTree destinationPages = mainDocument.getDocumentCatalog().getPages();
+            try (ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+                PDDocument resultPage = new PDDocument();
+                PDPage myPage = new PDPage(PDRectangle.A4);
+                resultPage.addPage(myPage);
+                PDPageContentStream contentStream = new PDPageContentStream(resultPage, myPage,
+                        PDPageContentStream.AppendMode.APPEND, true, false);
+                for (int i = 0; i < totalPageCount; i++) {
+                    PDPage page = mainDocument.getPage(i);
+                    int x = i % columns * pageWidth;
+                    int y = (rows - 1 - i / columns) * pageHeight;
+                    Matrix matrix = Matrix.getTranslateInstance(x, y);
+                    matrix.concatenate(Matrix.getScaleInstance((float) pageWidth / page.getCropBox().getWidth(),
+                            (float) pageHeight / page.getCropBox().getHeight()));
 
-            LayerUtility layerUtility = new LayerUtility(mainDocument);
+                    PDPageTree destinationPages = mainDocument.getDocumentCatalog().getPages();
+                    LayerUtility layerUtility = new LayerUtility(mainDocument);
+                    PDFormXObject pdFormXObject = layerUtility.importPageAsForm(mainDocument, i);
+                    AffineTransform affineTransform = new AffineTransform();
+                    PDPage destPage = destinationPages.get(0);
+                    layerUtility.wrapInSaveRestore(destPage);
+                    layerUtility.appendFormAsLayer(destPage, pdFormXObject, affineTransform, "child page" + i);
 
-            PDFormXObject firstForm = layerUtility.importPageAsForm(templatePDF, 0);
-
-            AffineTransform affineTransform = new AffineTransform();
-
-            PDPage destPage = destinationPages.get(0);
-            destPage.getMediaBox().transform(Matrix.getScaleInstance(0.5f, 0.5f));
-
-
-
-            layerUtility.wrapInSaveRestore(destPage);
-            layerUtility.appendFormAsLayer(destPage, firstForm, affineTransform, "external page1");
-            layerUtility.appendFormAsLayer(destPage, firstForm, affineTransform, "external page2");
-            layerUtility.appendFormAsLayer(destPage, firstForm, affineTransform, "external page3");
-            layerUtility.appendFormAsLayer(destPage, firstForm, affineTransform, "external page4");
-
-
-            mainDocument.save("asdasdsad.pdf");
-
+                    contentStream.saveGraphicsState();
+                    contentStream.transform(matrix);
+                    contentStream.drawForm(pdFormXObject);
+                    contentStream.restoreGraphicsState();
+                }
+                contentStream.close();
+                resultPage.save(outputStream);
+                return new ByteArrayInputStream(outputStream.toByteArray());
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
 
-
-        return new ByteArrayInputStream(outputStream.toByteArray());
+    public List<byte[]> generatePDFBytesList(String htmlContent, int numberOfPDFs) {
+        List<byte[]> pdfBytesList = new ArrayList<>();
+        for (int i = 0; i < numberOfPDFs; i++) {
+            Document document = Jsoup.parse(htmlContent, "UTF-8");
+            document.outputSettings().syntax(Document.OutputSettings.Syntax.xml);
+            String documentHtml = document.html();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ITextRenderer renderer = new ITextRenderer();
+            renderer.setDocumentFromString(documentHtml);
+            renderer.layout();
+            renderer.createPDF(outputStream, false);
+            renderer.finishPDF();
+            pdfBytesList.add(outputStream.toByteArray());
+        }
+        return pdfBytesList;
     }
 
 }
