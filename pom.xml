@@ -21,6 +21,8 @@
         <module>spring-boot-email-starter</module>
         <module>spring-aop-before-advice-specific-method</module>
         <module>pdfbox-integration</module>
+        <module>spring-aop-before-advice-any-return-type</module>
+        <module>spring-aop-before-advice-match-on-method-parameters</module>
     </modules>
 
     <properties>
