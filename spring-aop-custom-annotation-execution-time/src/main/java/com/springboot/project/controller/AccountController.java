@@ -1,5 +1,7 @@
 package com.springboot.project.controller;
 
+import com.springboot.project.annotation.LogExecutionTime;
+import com.springboot.project.helper.RandomHelper;
 import com.springboot.project.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +22,10 @@ public class AccountController {
     }
 
 
+    @LogExecutionTime
     @RequestMapping(method = RequestMethod.GET, path = "/v1/accounts", produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> getAccountDetail() {
+        RandomHelper.randomSleepInSeconds();
         return new ResponseEntity<>(this.accountService.addAccount(), HttpStatus.OK);
     }
 
