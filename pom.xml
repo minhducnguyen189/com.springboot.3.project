@@ -24,6 +24,7 @@
         <module>spring-aop-before-advice-any-return-type</module>
         <module>spring-aop-before-advice-match-on-method-parameters</module>
         <module>spring-aop-custom-annotation-execution-time</module>
+        <module>spring-quartz-scheduler-hello-world</module>
     </modules>
 
     <properties>
