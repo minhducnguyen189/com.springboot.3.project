@@ -25,6 +25,7 @@
         <module>spring-aop-before-advice-match-on-method-parameters</module>
         <module>spring-aop-custom-annotation-execution-time</module>
         <module>spring-quartz-scheduler-hello-world</module>
+        <module>spring-quartz-scheduler-integration</module>
     </modules>
 
     <properties>

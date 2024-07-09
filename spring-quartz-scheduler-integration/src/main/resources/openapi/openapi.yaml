@@ -1,0 +1,93 @@
+openapi: 3.0.3
+info:
+  title: Swagger Customer - OpenAPI 3.0
+  description: Everything about sample hibernate second level cache
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: https://petstore3.swagger.io/api/v1
+tags:
+  - name: email
+    description: Everything about email
+  - name: email-scheduler
+    description: Everything about email-scheduler=
+paths:
+  /v1/emails:
+    post:
+      tags:
+        - email
+      summary: Add a Product to database
+      description: Add a Product to database
+      operationId: addProduct
+      requestBody:
+        description: Create a Product and save to database
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/components/schemas/EmailSchedulerRequest'
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailSchedulerResponse'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    EmailSchedulerRequest:
+      type: object
+      properties:
+        foundNumber:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+
+    EmailSchedulerResponse:
+      type: object
+      properties:
+        foundNumber:
+          type: integer
+          format: int64
+        total:
+          type: integer
+          format: int64
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        status:
+          type: string
+        message:
+          type: string
+        path:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
