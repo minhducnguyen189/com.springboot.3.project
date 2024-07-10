@@ -7,15 +7,17 @@ import org.springframework.util.CollectionUtils;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class LocalTimeAttributeConverter implements AttributeConverter<List<LocalTime>, String> {
+public class LocalTimeAttributeConverter implements AttributeConverter<Set<LocalTime>, String> {
 
     private static final String SEPARATOR = ",";
 
     @Override
-    public String convertToDatabaseColumn(List<LocalTime> times) {
+    public String convertToDatabaseColumn(Set<LocalTime> times) {
         return CollectionUtils.isEmpty(times)
                 ? StringUtils.EMPTY
                 : times.stream()
@@ -24,14 +26,14 @@ public class LocalTimeAttributeConverter implements AttributeConverter<List<Loca
     }
 
     @Override
-    public List<LocalTime> convertToEntityAttribute(String dbData) {
+    public Set<LocalTime> convertToEntityAttribute(String dbData) {
         if (StringUtils.isEmpty(dbData)) {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
         String formatted = dbData.replaceAll("[//[//]]", dbData);
         return Arrays.stream(formatted.split(SEPARATOR))
                 .map(String::trim)
                 .map(LocalTime::parse)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

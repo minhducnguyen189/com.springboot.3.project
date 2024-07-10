@@ -1,9 +1,14 @@
+
+application:
+  quartz:
+    time-zone: Asia/Ho_Chi_Minh
+
 # config datasource for Jpa and Jdbc
 spring:
   servlet:
     multipart:
-      max-file-size: 5MB
-      max-request-size: 5MB
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     driverClassName: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/quartz?useUnicode=true&characterEncoding=UTF-8
@@ -24,3 +29,7 @@ spring:
     user: ${spring.datasource.username}
     password: ${spring.datasource.password}
     locations: classpath:db/migration
+  quartz:
+    job-store-type: jdbc
+    jobStore:
+      driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate

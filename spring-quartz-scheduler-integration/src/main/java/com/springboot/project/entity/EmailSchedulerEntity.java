@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.Instant;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Table(name = "email_scheduler")
@@ -32,11 +33,11 @@ public class EmailSchedulerEntity {
 
     @Column(name = "days_of_week")
     @Convert(converter = IntegerAttributeConverter.class)
-    private List<Integer> daysOfWeek;
+    private Set<Integer> daysOfWeek;
 
     @Column(name = "times_of_day")
     @Convert(converter = LocalTimeAttributeConverter.class)
-    private List<LocalTime> timesOfDay;
+    private Set<LocalTime> timesOfDay;
 
     @Column(name = "created_at")
     private Instant createdAt;

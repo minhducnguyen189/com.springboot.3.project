@@ -5,18 +5,18 @@ import jakarta.persistence.AttributeConverter;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-public class IntegerAttributeConverter implements AttributeConverter<List<Integer>, String> {
+public class IntegerAttributeConverter implements AttributeConverter<Set<Integer>, String> {
 
     private static final String SEPARATOR = ",";
 
     @Override
-    public String convertToDatabaseColumn(List<Integer> integers) {
+    public String convertToDatabaseColumn(Set<Integer> integers) {
         return CollectionUtils.isEmpty(integers)
                 ? StringUtils.EMPTY
                 : integers.stream()
@@ -25,14 +25,14 @@ public class IntegerAttributeConverter implements AttributeConverter<List<Intege
     }
 
     @Override
-    public List<Integer> convertToEntityAttribute(String dbData) {
+    public Set<Integer> convertToEntityAttribute(String dbData) {
         if (StringUtils.isEmpty(dbData)) {
-            return new ArrayList<>();
+            return new HashSet<>();
         }
         String formatted = dbData.replaceAll("[//[//]]", dbData);
         return Arrays.stream(formatted.split(SEPARATOR))
                 .map(String::trim)
                 .map(Integer::parseInt)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

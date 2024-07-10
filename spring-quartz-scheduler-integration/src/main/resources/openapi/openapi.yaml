@@ -15,7 +15,7 @@ externalDocs:
 servers:
   - url: https://petstore3.swagger.io/api/v1
 tags:
-  - name: email
+  - name: email-data-store
     description: Everything about email
   - name: email-scheduler
     description: Everything about email-scheduler=
@@ -23,24 +23,23 @@ paths:
   /v1/emails:
     post:
       tags:
-        - email
-      summary: Add a Product to database
-      description: Add a Product to database
-      operationId: addProduct
+        - email-data-store
+      summary: Add an email data to database
+      description: Add an email data to database
+      operationId: saveEmailData
       requestBody:
-        description: Create a Product and save to database
+        description: Add an email data to database
         content:
           application/json:
             schema:
-              type: object
-              $ref: '#/components/schemas/EmailSchedulerRequest'
+              $ref: '#/components/schemas/EmailSchedulerDataRequest'
       responses:
         "201":
           description: successful created operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EmailSchedulerResponse'
+                $ref: '#/components/schemas/EmailSchedulerDataResponse'
         "400":
           description: bad request operation
         "404":
@@ -56,25 +55,43 @@ paths:
 
 components:
   schemas:
-    EmailSchedulerRequest:
+    EmailSchedulerDataRequest:
       type: object
       properties:
-        foundNumber:
-          type: integer
-          format: int64
+        subject:
+          type: string
+        emailContent:
+          type: string
+        emailAddress:
+          type: string
+        daysOfWeek:
+          type: array
+          items:
+            type: integer
+            format: int32
+        timesOfDay:
+          type: array
+          items:
+            type: string
+            format: time
         total:
           type: integer
           format: int64
 
-    EmailSchedulerResponse:
-      type: object
-      properties:
-        foundNumber:
-          type: integer
-          format: int64
-        total:
-          type: integer
-          format: int64
+    EmailSchedulerDataResponse:
+      allOf:
+        - $ref: '#/components/schemas/EmailSchedulerDataRequest'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid
+            createdAt:
+              type: string
+              format: datetime
+            updatedAt:
+              type: string
+              format: datetime
 
     ErrorResponse:
       type: object
