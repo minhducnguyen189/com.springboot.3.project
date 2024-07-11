@@ -35,6 +35,11 @@ public class EmailDataService {
                 .toEmailSchedulerDataResponse(this.emailRepository.save(entity));
     }
 
+    public EmailSchedulerDataResponse getEmailEmailScheduleData(UUID id) {
+        return EmailSchedulerMapper.MAPPER
+                .toEmailSchedulerDataResponse(this.getEmailSchedulerEntity(id));
+    }
+
     public EmailSchedulerEntity getEmailSchedulerEntity(UUID id) {
         Optional<EmailSchedulerEntity> opt = this.emailRepository.findById(id);
         if (opt.isEmpty()) {

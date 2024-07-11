@@ -31,5 +31,6 @@ spring:
     locations: classpath:db/migration
   quartz:
     job-store-type: jdbc
-    jobStore:
-      driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate
+    properties:
+      org.quartz.jobStore:
+        driverDelegateClass: org.quartz.impl.jdbcjobstore.PostgreSQLDelegate

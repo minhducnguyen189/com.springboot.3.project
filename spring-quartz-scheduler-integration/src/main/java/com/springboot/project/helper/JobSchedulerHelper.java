@@ -16,6 +16,8 @@ import java.util.TimeZone;
 
 public class JobSchedulerHelper {
 
+    private static final String SEPARATOR = "|";
+
     private final String timeZoneId;
     private final String jobGroup;
     private final Class <? extends Job> jobClass;
@@ -36,17 +38,15 @@ public class JobSchedulerHelper {
     }
 
     public Trigger buildTrigger(JobDetail jobDetail, Set<Integer> daysOfWeek, LocalTime time) {
-        MutableTrigger mutableTrigger = CronScheduleBuilder
-                .atHourAndMinuteOnGivenDaysOfWeek(time.getHour(), time.getMinute(), daysOfWeek.toArray(new Integer[0]))
-                .withMisfireHandlingInstructionFireAndProceed()
-                .inTimeZone(TimeZone.getTimeZone(this.timeZoneId))
-                .build();
         return TriggerBuilder
                 .newTrigger()
-                .withIdentity(jobDetail.getDescription() + time, this.jobGroup)
-                .withDescription(jobDetail.getDescription())
+                .withIdentity(jobDetail.getKey().getName() + SEPARATOR + time, this.jobGroup)
+                .withDescription(jobDetail.getKey().getName())
                 .forJob(jobDetail)
-                .withSchedule(mutableTrigger.getScheduleBuilder())
+                .withSchedule(CronScheduleBuilder
+                        .atHourAndMinuteOnGivenDaysOfWeek(time.getHour(), time.getMinute(), daysOfWeek.toArray(new Integer[0]))
+                        .withMisfireHandlingInstructionFireAndProceed()
+                        .inTimeZone(TimeZone.getTimeZone(this.timeZoneId)))
                 .startNow()
                 .build();
     }

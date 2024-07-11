@@ -20,7 +20,7 @@ tags:
   - name: email-scheduler
     description: Everything about email-scheduler=
 paths:
-  /v1/emails:
+  /v1/emails/configs:
     post:
       tags:
         - email-data-store
@@ -52,7 +52,106 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
-
+  /v1/emails/configs/{email-config-id}:
+    get:
+      tags:
+        - email-data-store
+      summary: get an email config data to database
+      description: get an email config data to database
+      operationId: getEmailData
+      parameters:
+      - in: path
+        name: email-config-id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailSchedulerDataResponse'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    put:
+      tags:
+        - email-data-store
+      summary: update an email data to database
+      description: update an email data to database
+      operationId: updateEmailData
+      parameters:
+      - in: path
+        name: email-config-id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        description: Add an email data to database
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmailSchedulerDataRequest'
+      responses:
+        "201":
+          description: successful created operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailSchedulerDataResponse'
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /v1/emails/configs/{email-config-id}/actions/trigger-scheduler:
+    post:
+      tags:
+        - email-scheduler
+      summary: trigger email scheduler
+      description: trigger email scheduler
+      operationId: triggerEmailScheduler
+      parameters:
+      - in: path
+        name: email-config-id
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "204":
+          description: successful created operation
+        "400":
+          description: bad request operation
+        "404":
+          description: not found operation
+        "500":
+          description: internal server error operation
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 components:
   schemas:
     EmailSchedulerDataRequest:
@@ -74,9 +173,6 @@ components:
           items:
             type: string
             format: time
-        total:
-          type: integer
-          format: int64
 
     EmailSchedulerDataResponse:
       allOf:

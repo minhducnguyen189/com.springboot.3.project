@@ -5,20 +5,12 @@ import com.springboot.project.helper.JobSchedulerHelper;
 import com.springboot.project.job.EmailJob;
 import com.springboot.project.model.JobDataEnum;
 import com.springboot.project.config.ApplicationProperty;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class EmailSchedulerService {
@@ -61,6 +53,12 @@ public class EmailSchedulerService {
         }
         scheduleData.put(jobDetail, triggers);
         try {
+            List<TriggerKey> existedTriggerKeys = this.scheduler
+                    .getTriggersOfJob(jobDetail.getKey())
+                    .stream()
+                    .map(Trigger::getKey)
+                    .toList();
+            this.scheduler.unscheduleJobs(existedTriggerKeys);
             this.scheduler.scheduleJobs(scheduleData, true);
         } catch (SchedulerException ex) {
             throw new RuntimeException("Can not schedule job", ex);
