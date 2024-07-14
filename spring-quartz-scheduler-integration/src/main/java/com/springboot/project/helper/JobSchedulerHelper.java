@@ -7,7 +7,6 @@ import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
-import org.quartz.spi.MutableTrigger;
 
 import java.time.LocalTime;
 import java.util.Objects;
