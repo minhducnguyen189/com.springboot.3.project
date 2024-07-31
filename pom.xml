@@ -26,6 +26,7 @@
         <module>spring-aop-custom-annotation-execution-time</module>
         <module>spring-quartz-scheduler-hello-world</module>
         <module>spring-quartz-scheduler-integration</module>
+        <module>cay-bang-grocery-api-2</module>
     </modules>
 
     <properties>
