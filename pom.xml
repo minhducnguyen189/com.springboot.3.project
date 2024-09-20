@@ -27,6 +27,7 @@
         <module>spring-quartz-scheduler-hello-world</module>
         <module>spring-quartz-scheduler-integration</module>
         <module>cay-bang-grocery-api-2</module>
+        <module>spring-websocket</module>
     </modules>
 
     <properties>
