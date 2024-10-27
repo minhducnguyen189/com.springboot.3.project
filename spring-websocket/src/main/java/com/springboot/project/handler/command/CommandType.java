@@ -1,5 +1,8 @@
 package com.springboot.project.handler.command;
 
+import com.springboot.project.handler.impl.JoinRoomCommand;
+import com.springboot.project.handler.impl.MessageCommand;
+import com.springboot.project.handler.impl.PingCommand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public enum CommandType {
+  JOIN_ROOM("join", "joined", true, JoinRoomCommand.class),
   PING_PONG("ping", "pong", false, PingCommand.class),
   MESSAGE("", "message", false, MessageCommand.class),
   ;

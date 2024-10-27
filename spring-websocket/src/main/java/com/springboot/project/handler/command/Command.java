@@ -1,6 +1,7 @@
 package com.springboot.project.handler.command;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.springboot.project.handler.command.model.CommandResponse;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.io.IOException;
