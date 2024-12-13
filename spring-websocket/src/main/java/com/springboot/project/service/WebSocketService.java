@@ -2,27 +2,22 @@ package com.springboot.project.service;
 
 import com.springboot.project.entity.LoginStateEnum;
 import com.springboot.project.entity.WebsocketLoginEntity;
-import com.springboot.project.repository.WebsocketLoginRepository;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
 @Service
-public class WebSocketLoginService {
+public class WebSocketService {
 
-    @Getter
-    private WebsocketLoginEntity currentLogin;
+    private final WebSocketLoginService websocketLoginService;
 
-    private final WebsocketLoginRepository websocketLoginRepository;
 
     @Autowired
-    public WebSocketLoginService(WebsocketLoginRepository websocketLoginRepository) {
-        this.websocketLoginRepository = websocketLoginRepository;
+    public WebSocketService(WebSocketLoginService websocketLoginService) {
+        this.websocketLoginService = websocketLoginService;
     }
 
     public boolean isLogin(long userId) {
-        WebsocketLoginEntity websocketLoginEntity = this.getByUserId(userId);
+        WebsocketLoginEntity websocketLoginEntity = websocketLoginService.getLogin(userId);
         if (websocketLoginEntity == null) {
             return false;
         }
@@ -30,7 +25,7 @@ public class WebSocketLoginService {
     }
 
     public WebsocketLoginEntity getLogin(long userId) {
-        return this.getByUserId(userId);
+        return websocketLoginService.getLogin(userId);
     }
 
     public void login(String id, long userId) {
@@ -46,36 +41,20 @@ public class WebSocketLoginService {
             websocketLoginEntity.setSessionId(id);
             websocketLoginEntity.setLoginState(LoginStateEnum.ACTIVE);
         }
-        this.save(websocketLoginEntity);
+        websocketLoginService.save(websocketLoginEntity);
     }
 
     public void logout(String sessionId) {
-        WebsocketLoginEntity websocketLoginEntity = this.getBySessionId(sessionId);
+        WebsocketLoginEntity websocketLoginEntity = websocketLoginService.getWebsocketLogin(sessionId);
         if (websocketLoginEntity == null) {
             return;
         }
         websocketLoginEntity.setLoginState(LoginStateEnum.INACTIVE);
-        this.save(websocketLoginEntity);
-    }
-
-    public void setCurrentLogin(WebsocketLoginEntity websocketLoginEntity) {
-        this.currentLogin = websocketLoginEntity;
+        websocketLoginService.save(websocketLoginEntity);
     }
 
     public WebsocketLoginEntity getWebsocketLogin(String id) {
-        return this.getBySessionId(id);
-    }
-
-    private WebsocketLoginEntity getBySessionId(String sessionId) {
-        return this.websocketLoginRepository.findBySessionId(sessionId);
-    }
-
-    private WebsocketLoginEntity getByUserId(long userId) {
-        return this.websocketLoginRepository.findByUserId(userId);
-    }
-
-    public WebsocketLoginEntity save(WebsocketLoginEntity websocketLoginEntity) {
-        return this.websocketLoginRepository.save(websocketLoginEntity);
+        return websocketLoginService.getWebsocketLogin(id);
     }
 
 }
