@@ -28,6 +28,7 @@
         <module>spring-quartz-scheduler-integration</module>
         <module>cay-bang-grocery-api-2</module>
         <module>spring-websocket</module>
+        <module>spring-couchdb</module>
     </modules>
 
     <properties>
