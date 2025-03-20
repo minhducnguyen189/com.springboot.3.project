@@ -9,9 +9,8 @@ import java.util.UUID;
 @Setter
 public class EmailDetailDto {
 
-    private UUID id;
-    private String subject;
-    private String emailContent;
-    private String emailAddress;
-
+  private UUID id;
+  private String subject;
+  private String emailContent;
+  private String emailAddress;
 }

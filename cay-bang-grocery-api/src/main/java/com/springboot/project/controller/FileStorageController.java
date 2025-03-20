@@ -15,19 +15,20 @@ import java.util.UUID;
 @RestController
 public class FileStorageController implements FileApi {
 
-    private final FileStorageService fileStorageService;
+  private final FileStorageService fileStorageService;
 
-    @Autowired
-    public FileStorageController(FileStorageService fileStorageService) {
-        this.fileStorageService = fileStorageService;
-    }
+  @Autowired
+  public FileStorageController(FileStorageService fileStorageService) {
+    this.fileStorageService = fileStorageService;
+  }
 
-    @Override
-    public ResponseEntity<Resource> getFileData(UUID productId, UUID fileId) {
-        FileResourceDetail fileResourceDetail = this.fileStorageService.downloadFile(productId, fileId);
-        return ResponseEntity.status(HttpStatus.OK)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileResourceDetail.getFileName() + "\"")
-                .body(fileResourceDetail.getFileData());
-    }
-
+  @Override
+  public ResponseEntity<Resource> getFileData(UUID productId, UUID fileId) {
+    FileResourceDetail fileResourceDetail = this.fileStorageService.downloadFile(productId, fileId);
+    return ResponseEntity.status(HttpStatus.OK)
+        .header(
+            HttpHeaders.CONTENT_DISPOSITION,
+            "attachment; filename=\"" + fileResourceDetail.getFileName() + "\"")
+        .body(fileResourceDetail.getFileData());
+  }
 }

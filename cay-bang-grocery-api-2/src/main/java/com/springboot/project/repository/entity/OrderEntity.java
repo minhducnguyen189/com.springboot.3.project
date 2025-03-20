@@ -15,24 +15,27 @@ import java.util.List;
 @Table(name = "orders")
 public class OrderEntity extends BaseEntity {
 
-    @Generated
-    @Column(name = "order_number")
-    private Long orderNumber;
+  @Generated
+  @Column(name = "order_number")
+  private Long orderNumber;
 
-    @Column(name = "customer_name")
-    private String customerName;
+  @Column(name = "customer_name")
+  private String customerName;
 
-    @Column(name = "address")
-    private String address;
+  @Column(name = "address")
+  private String address;
 
-    @Column(name = "phone_number")
-    private String phoneNumber;
+  @Column(name = "phone_number")
+  private String phoneNumber;
 
-    @Column(name = "email")
-    private String email;
+  @Column(name = "email")
+  private String email;
 
-    @Fetch(FetchMode.SUBSELECT)
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    private List<OrderItemEntity> items;
-
+  @Fetch(FetchMode.SUBSELECT)
+  @OneToMany(
+      mappedBy = "order",
+      cascade = CascadeType.ALL,
+      orphanRemoval = true,
+      fetch = FetchType.LAZY)
+  private List<OrderItemEntity> items;
 }

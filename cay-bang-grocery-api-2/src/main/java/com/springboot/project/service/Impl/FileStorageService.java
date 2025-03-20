@@ -14,21 +14,20 @@ import java.util.UUID;
 @Service
 public class FileStorageService implements IFileStorageService {
 
-    private final FileStorageRepository fileStorageRepository;
+  private final FileStorageRepository fileStorageRepository;
 
-    @Autowired
-    public FileStorageService(FileStorageRepository fileStorageRepository) {
-        this.fileStorageRepository = fileStorageRepository;
+  @Autowired
+  public FileStorageService(FileStorageRepository fileStorageRepository) {
+    this.fileStorageRepository = fileStorageRepository;
+  }
+
+  @Override
+  public FileResourceDetail downloadFile(UUID productId, UUID fileId) {
+    Optional<FileStorageEntity> fileStorageEntity =
+        this.fileStorageRepository.findByProductIdAndId(productId, fileId);
+    if (fileStorageEntity.isPresent()) {
+      return FileStorageMapper.MAPPER.toFileResourceDetail(fileStorageEntity.get());
     }
-
-
-    @Override
-    public FileResourceDetail downloadFile(UUID productId, UUID fileId) {
-        Optional<FileStorageEntity> fileStorageEntity = this.fileStorageRepository.findByProductIdAndId(productId, fileId);
-        if (fileStorageEntity.isPresent()) {
-            return FileStorageMapper.MAPPER.toFileResourceDetail(fileStorageEntity.get());
-        }
-        throw new RuntimeException("File Resource Not Found!");
-    }
-
+    throw new RuntimeException("File Resource Not Found!");
+  }
 }

@@ -14,38 +14,37 @@ import java.util.UUID;
 @Service
 public class EmailDataService {
 
-    private final EmailRepository emailRepository;
+  private final EmailRepository emailRepository;
 
-    @Autowired
-    public EmailDataService(EmailRepository emailRepository) {
-        this.emailRepository = emailRepository;
+  @Autowired
+  public EmailDataService(EmailRepository emailRepository) {
+    this.emailRepository = emailRepository;
+  }
+
+  public EmailSchedulerDataResponse createEmailScheduleData(EmailSchedulerDataRequest request) {
+    EmailSchedulerEntity entity = EmailSchedulerMapper.MAPPER.toEmailSchedulerEntity(request);
+    return EmailSchedulerMapper.MAPPER.toEmailSchedulerDataResponse(
+        this.emailRepository.save(entity));
+  }
+
+  public EmailSchedulerDataResponse updateEmailScheduleData(
+      UUID id, EmailSchedulerDataRequest request) {
+    EmailSchedulerEntity entity = this.getEmailSchedulerEntity(id);
+    EmailSchedulerMapper.MAPPER.updateEmailSchedulerEntity(entity, request);
+    return EmailSchedulerMapper.MAPPER.toEmailSchedulerDataResponse(
+        this.emailRepository.save(entity));
+  }
+
+  public EmailSchedulerDataResponse getEmailEmailScheduleData(UUID id) {
+    return EmailSchedulerMapper.MAPPER.toEmailSchedulerDataResponse(
+        this.getEmailSchedulerEntity(id));
+  }
+
+  public EmailSchedulerEntity getEmailSchedulerEntity(UUID id) {
+    Optional<EmailSchedulerEntity> opt = this.emailRepository.findById(id);
+    if (opt.isEmpty()) {
+      throw new RuntimeException("resource not found!");
     }
-
-
-    public EmailSchedulerDataResponse createEmailScheduleData(EmailSchedulerDataRequest request) {
-        EmailSchedulerEntity entity = EmailSchedulerMapper.MAPPER.toEmailSchedulerEntity(request);
-        return EmailSchedulerMapper.MAPPER
-                .toEmailSchedulerDataResponse(this.emailRepository.save(entity));
-    }
-
-    public EmailSchedulerDataResponse updateEmailScheduleData(UUID id, EmailSchedulerDataRequest request) {
-        EmailSchedulerEntity entity = this.getEmailSchedulerEntity(id);
-        EmailSchedulerMapper.MAPPER.updateEmailSchedulerEntity(entity, request);
-        return EmailSchedulerMapper.MAPPER
-                .toEmailSchedulerDataResponse(this.emailRepository.save(entity));
-    }
-
-    public EmailSchedulerDataResponse getEmailEmailScheduleData(UUID id) {
-        return EmailSchedulerMapper.MAPPER
-                .toEmailSchedulerDataResponse(this.getEmailSchedulerEntity(id));
-    }
-
-    public EmailSchedulerEntity getEmailSchedulerEntity(UUID id) {
-        Optional<EmailSchedulerEntity> opt = this.emailRepository.findById(id);
-        if (opt.isEmpty()) {
-            throw new RuntimeException("resource not found!");
-        }
-        return opt.get();
-    }
-
+    return opt.get();
+  }
 }

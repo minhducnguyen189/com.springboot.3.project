@@ -6,6 +6,5 @@ import java.util.UUID;
 
 public interface IFileStorageService {
 
-    FileResourceDetail downloadFile(UUID productId, UUID fileId);
-
+  FileResourceDetail downloadFile(UUID productId, UUID fileId);
 }

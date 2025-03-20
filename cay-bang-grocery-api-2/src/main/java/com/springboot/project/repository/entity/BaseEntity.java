@@ -12,26 +12,25 @@ import java.util.UUID;
 @MappedSuperclass
 public class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
+  @Column(name = "created_at")
+  private Instant createdAt;
 
-    @Column(name = "updated_at")
-    private Instant updatedAt;
+  @Column(name = "updated_at")
+  private Instant updatedAt;
 
-    @PrePersist
-    private void prePersist() {
-        Instant now = Instant.now();
-        this.createdAt = now;
-        this.updatedAt = now;
-    }
+  @PrePersist
+  private void prePersist() {
+    Instant now = Instant.now();
+    this.createdAt = now;
+    this.updatedAt = now;
+  }
 
-    @PreUpdate
-    private void preUpdate() {
-        this.updatedAt = Instant.now();
-    }
-
+  @PreUpdate
+  private void preUpdate() {
+    this.updatedAt = Instant.now();
+  }
 }

@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class Account {
 
-    private String name;
-    private String level;
-
+  private String name;
+  private String level;
 }

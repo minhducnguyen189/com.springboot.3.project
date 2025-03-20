@@ -60,7 +60,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>org.xhtmlrenderer</groupId>
             <artifactId>flying-saucer-pdf</artifactId>
@@ -72,8 +71,6 @@
             <version>9.4.0</version>
             <type>pom</type>
         </dependency>
-
-
 
 
     </dependencies>

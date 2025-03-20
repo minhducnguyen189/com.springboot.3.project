@@ -21,43 +21,42 @@ import java.util.List;
 @Service
 public class OrderService {
 
-    private final OrderRepository orderRepository;
-    private final ProductService productService;
+  private final OrderRepository orderRepository;
+  private final ProductService productService;
 
-    @Autowired
-    public OrderService(OrderRepository orderRepository,
-                        ProductService productService) {
-        this.orderRepository = orderRepository;
-        this.productService = productService;
+  @Autowired
+  public OrderService(OrderRepository orderRepository, ProductService productService) {
+    this.orderRepository = orderRepository;
+    this.productService = productService;
+  }
+
+  public OrderDetail createOrder(OrderRequest orderRequest) {
+    OrderEntity orderEntity = OrderMapper.MAPPER.toOrderEntity(orderRequest);
+    List<OrderItemEntity> orderItemEntities = new ArrayList<>();
+    for (OrderItemRequest orderItemRequest : orderRequest.getOrderItems()) {
+      ProductEntity productEntity =
+          this.productService.getProductByProductNumber(orderItemRequest.getProductNumber());
+      OrderItemEntity orderItemEntity = new OrderItemEntity();
+      orderItemEntity.setQuantity(orderItemRequest.getQuantity());
+      orderItemEntity.setProduct(productEntity);
+      orderItemEntity.setOrder(orderEntity);
+      orderItemEntities.add(orderItemEntity);
     }
+    orderEntity.setItems(orderItemEntities);
+    orderEntity = this.orderRepository.save(orderEntity);
 
-    public OrderDetail createOrder(OrderRequest orderRequest) {
-        OrderEntity orderEntity = OrderMapper.MAPPER.toOrderEntity(orderRequest);
-        List<OrderItemEntity> orderItemEntities = new ArrayList<>();
-        for (OrderItemRequest orderItemRequest: orderRequest.getOrderItems()) {
-            ProductEntity productEntity = this.productService.getProductByProductNumber(orderItemRequest.getProductNumber());
-            OrderItemEntity orderItemEntity = new OrderItemEntity();
-            orderItemEntity.setQuantity(orderItemRequest.getQuantity());
-            orderItemEntity.setProduct(productEntity);
-            orderItemEntity.setOrder(orderEntity);
-            orderItemEntities.add(orderItemEntity);
-        }
-        orderEntity.setItems(orderItemEntities);
-        orderEntity = this.orderRepository.save(orderEntity);
+    return OrderMapper.MAPPER.toOrderDetail(orderEntity);
+  }
 
-        return OrderMapper.MAPPER.toOrderDetail(orderEntity);
-    }
-
-    public OrderFilterResult getOrders(Integer pageNumber, Integer pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        OrderFilterResult orderFilterResult = new OrderFilterResult();
-        Page<OrderEntity> page = this.orderRepository.findAll(pageable);
-        Long count = this.orderRepository.count();
-        List<OrderDetail> orderDetails = OrderMapper.MAPPER.toOrderDetails(page.getContent());
-        orderFilterResult.setOrders(orderDetails);
-        orderFilterResult.setTotal(count);
-        orderFilterResult.setFoundNumber(count);
-        return orderFilterResult;
-    }
-
+  public OrderFilterResult getOrders(Integer pageNumber, Integer pageSize) {
+    Pageable pageable = PageRequest.of(pageNumber, pageSize);
+    OrderFilterResult orderFilterResult = new OrderFilterResult();
+    Page<OrderEntity> page = this.orderRepository.findAll(pageable);
+    Long count = this.orderRepository.count();
+    List<OrderDetail> orderDetails = OrderMapper.MAPPER.toOrderDetails(page.getContent());
+    orderFilterResult.setOrders(orderDetails);
+    orderFilterResult.setTotal(count);
+    orderFilterResult.setFoundNumber(count);
+    return orderFilterResult;
+  }
 }

@@ -10,12 +10,11 @@ import org.springframework.core.io.Resource;
 @Mapper
 public interface FileStorageMapper {
 
-    FileStorageMapper MAPPER = Mappers.getMapper(FileStorageMapper.class);
+  FileStorageMapper MAPPER = Mappers.getMapper(FileStorageMapper.class);
 
-    FileResourceDetail toFileResourceDetail(FileStorageEntity fileStorageEntity);
+  FileResourceDetail toFileResourceDetail(FileStorageEntity fileStorageEntity);
 
-    default Resource toFileData(byte[] fileData) {
-        return new ByteArrayResource(fileData);
-    }
-
+  default Resource toFileData(byte[] fileData) {
+    return new ByteArrayResource(fileData);
+  }
 }

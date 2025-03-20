@@ -7,7 +7,6 @@ import lombok.Setter;
 @Setter
 public class FileContentDto {
 
-    private String fileName;
-    private byte[] content;
-
+  private String fileName;
+  private byte[] content;
 }

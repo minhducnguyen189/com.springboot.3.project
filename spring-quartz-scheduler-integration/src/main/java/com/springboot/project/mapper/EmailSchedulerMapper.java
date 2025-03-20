@@ -10,12 +10,13 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface EmailSchedulerMapper {
 
-    EmailSchedulerMapper MAPPER = Mappers.getMapper(EmailSchedulerMapper.class);
+  EmailSchedulerMapper MAPPER = Mappers.getMapper(EmailSchedulerMapper.class);
 
-    EmailSchedulerEntity toEmailSchedulerEntity(EmailSchedulerDataRequest emailSchedulerDataRequest);
+  EmailSchedulerEntity toEmailSchedulerEntity(EmailSchedulerDataRequest emailSchedulerDataRequest);
 
-    EmailSchedulerDataResponse toEmailSchedulerDataResponse(EmailSchedulerEntity entity);
+  EmailSchedulerDataResponse toEmailSchedulerDataResponse(EmailSchedulerEntity entity);
 
-    void updateEmailSchedulerEntity(@MappingTarget EmailSchedulerEntity entity, EmailSchedulerDataRequest emailSchedulerDataRequest);
-
+  void updateEmailSchedulerEntity(
+      @MappingTarget EmailSchedulerEntity entity,
+      EmailSchedulerDataRequest emailSchedulerDataRequest);
 }

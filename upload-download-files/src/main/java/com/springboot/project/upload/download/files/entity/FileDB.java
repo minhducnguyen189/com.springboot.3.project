@@ -13,27 +13,26 @@ import java.util.UUID;
 @Table(name = "files")
 public class FileDB {
 
-    @Id
-    @GeneratedValue(generator = "uuid")
-    private UUID id;
+  @Id
+  @GeneratedValue(generator = "uuid")
+  private UUID id;
 
-    private String fileName;
-    private String fileType;
-    private String fileExtension;
-    private byte[] fileData;
-    private Date createdDate;
-    private Date updatedDate;
+  private String fileName;
+  private String fileType;
+  private String fileExtension;
+  private byte[] fileData;
+  private Date createdDate;
+  private Date updatedDate;
 
-    @PrePersist
-    private void onCreate() {
-        Date now = new Date();
-        this.createdDate = now;
-        this.updatedDate = now;
-    }
+  @PrePersist
+  private void onCreate() {
+    Date now = new Date();
+    this.createdDate = now;
+    this.updatedDate = now;
+  }
 
-    @PreUpdate
-    private void onUpdate() {
-        this.updatedDate = new Date();
-    }
-
+  @PreUpdate
+  private void onUpdate() {
+    this.updatedDate = new Date();
+  }
 }

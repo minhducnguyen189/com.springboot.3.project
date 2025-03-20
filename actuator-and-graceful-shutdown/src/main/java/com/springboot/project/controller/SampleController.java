@@ -12,10 +12,12 @@ import java.util.List;
 @RestController
 public class SampleController {
 
-    @RequestMapping(method = RequestMethod.GET, path = "/v1/messages", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<String>> getMessages() throws InterruptedException {
-        Thread.sleep(25000);
-        return ResponseEntity.ok(Arrays.asList("Message 1", "Message 2"));
-    }
-
+  @RequestMapping(
+      method = RequestMethod.GET,
+      path = "/v1/messages",
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<List<String>> getMessages() throws InterruptedException {
+    Thread.sleep(25000);
+    return ResponseEntity.ok(Arrays.asList("Message 1", "Message 2"));
+  }
 }

@@ -13,13 +13,16 @@ import java.io.IOException;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 public class PathResourceSecondAppResolverConfig extends PathResourceResolver {
 
-    private final ApplicationConfigurationProperty appConfig;
+  private final ApplicationConfigurationProperty appConfig;
 
-    @Override
-    public Resource getResource(String resourcePath, Resource location) throws IOException {
-        Resource requestedResource = location.createRelative(resourcePath);
-        return requestedResource.exists() && requestedResource.isReadable() && !resourcePath.equals("index.html") ? requestedResource
-                : new ClassPathResource(this.appConfig.getFrontEnd().getSecondAngularApp().getIndexLocation());
-    }
-
+  @Override
+  public Resource getResource(String resourcePath, Resource location) throws IOException {
+    Resource requestedResource = location.createRelative(resourcePath);
+    return requestedResource.exists()
+            && requestedResource.isReadable()
+            && !resourcePath.equals("index.html")
+        ? requestedResource
+        : new ClassPathResource(
+            this.appConfig.getFrontEnd().getSecondAngularApp().getIndexLocation());
+  }
 }

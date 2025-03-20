@@ -12,18 +12,18 @@ import org.springframework.web.socket.server.support.HttpSessionHandshakeInterce
 @EnableWebSocket
 public class WebSocketConfig implements WebSocketConfigurer {
 
-    private final WebSocketConnectionHandler webSocketConnectionHandler;
+  private final WebSocketConnectionHandler webSocketConnectionHandler;
 
-    @Autowired
-    public WebSocketConfig(WebSocketConnectionHandler webSocketConnectionHandler) {
-        this.webSocketConnectionHandler = webSocketConnectionHandler;
-    }
+  @Autowired
+  public WebSocketConfig(WebSocketConnectionHandler webSocketConnectionHandler) {
+    this.webSocketConnectionHandler = webSocketConnectionHandler;
+  }
 
-    @Override
-    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry
-                .addHandler(this.webSocketConnectionHandler, "/socket")
-                .addInterceptors(new HttpSessionHandshakeInterceptor())
-                .setAllowedOrigins("*");
-    }
+  @Override
+  public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
+    registry
+        .addHandler(this.webSocketConnectionHandler, "/socket")
+        .addInterceptors(new HttpSessionHandshakeInterceptor())
+        .setAllowedOrigins("*");
+  }
 }

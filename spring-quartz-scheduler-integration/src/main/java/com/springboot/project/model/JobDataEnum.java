@@ -4,14 +4,13 @@ import lombok.Getter;
 
 @Getter
 public enum JobDataEnum {
+  SUBJECT("subject"),
+  EMAIL_CONTENT("emailContent"),
+  EMAIL_ADDRESS("emailAddress");
 
-    SUBJECT("subject"),
-    EMAIL_CONTENT("emailContent"),
-    EMAIL_ADDRESS("emailAddress");
+  private final String value;
 
-    private final String value;
-
-    JobDataEnum(String value) {
-        this.value = value;
-    }
+  JobDataEnum(String value) {
+    this.value = value;
+  }
 }

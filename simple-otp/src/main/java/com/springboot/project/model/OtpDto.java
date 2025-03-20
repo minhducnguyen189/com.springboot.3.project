@@ -9,8 +9,7 @@ import java.time.LocalDateTime;
 @Setter
 public class OtpDto {
 
-    private String otpCode;
-    private LocalDateTime expirationTime;
-    private Integer triedNumber;
-
+  private String otpCode;
+  private LocalDateTime expirationTime;
+  private Integer triedNumber;
 }

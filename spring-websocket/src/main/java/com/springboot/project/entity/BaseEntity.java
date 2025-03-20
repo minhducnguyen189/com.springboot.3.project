@@ -13,27 +13,25 @@ import java.util.UUID;
 @MappedSuperclass
 public class BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
+  private UUID id;
 
-    @Column(name = "created_at")
-    private OffsetDateTime createdAt;
+  @Column(name = "created_at")
+  private OffsetDateTime createdAt;
 
-    @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+  @Column(name = "updated_at")
+  private OffsetDateTime updatedAt;
 
-    @PrePersist
-    private void prePersist() {
-        OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
-        this.createdAt = now;
-        this.updatedAt = now;
-    }
+  @PrePersist
+  private void prePersist() {
+    OffsetDateTime now = OffsetDateTime.now(ZoneOffset.UTC);
+    this.createdAt = now;
+    this.updatedAt = now;
+  }
 
-    @PreUpdate
-    private void preUpdate() {
-        this.updatedAt = OffsetDateTime.now(ZoneOffset.UTC);
-    }
-
-
+  @PreUpdate
+  private void preUpdate() {
+    this.updatedAt = OffsetDateTime.now(ZoneOffset.UTC);
+  }
 }

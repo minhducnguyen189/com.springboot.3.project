@@ -9,8 +9,7 @@ import java.util.UUID;
 @Repository
 public interface WebsocketLoginRepository extends JpaRepository<WebsocketLoginEntity, UUID> {
 
-    WebsocketLoginEntity findByUserId(long userId);
+  WebsocketLoginEntity findByUserId(long userId);
 
-    WebsocketLoginEntity findBySessionId(String sessionId);
-
+  WebsocketLoginEntity findBySessionId(String sessionId);
 }

@@ -13,21 +13,19 @@ import java.util.Date;
 @Configuration
 public class QuartzConfig {
 
-    @Bean
-    public CommandLineRunner run(Scheduler scheduler) {
-        return (String[] args) -> {
-            JobDetail job = JobBuilder.newJob(SimpleJob.class)
-                    .usingJobData("param", "value") // add a parameter
-                    .build();
+  @Bean
+  public CommandLineRunner run(Scheduler scheduler) {
+    return (String[] args) -> {
+      JobDetail job =
+          JobBuilder.newJob(SimpleJob.class)
+              .usingJobData("param", "value") // add a parameter
+              .build();
 
-            Date afterFiveSeconds = Date.from(LocalDateTime.now().plusSeconds(30)
-                    .atZone(ZoneId.systemDefault()).toInstant());
-            Trigger trigger = TriggerBuilder.newTrigger()
-                    .startAt(afterFiveSeconds)
-                    .build();
+      Date afterFiveSeconds =
+          Date.from(LocalDateTime.now().plusSeconds(30).atZone(ZoneId.systemDefault()).toInstant());
+      Trigger trigger = TriggerBuilder.newTrigger().startAt(afterFiveSeconds).build();
 
-            scheduler.scheduleJob(job, trigger);
-        };
-    }
-
+      scheduler.scheduleJob(job, trigger);
+    };
+  }
 }

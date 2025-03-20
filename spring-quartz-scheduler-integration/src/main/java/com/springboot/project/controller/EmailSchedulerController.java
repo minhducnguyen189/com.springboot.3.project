@@ -12,17 +12,16 @@ import java.util.UUID;
 @RestController
 public class EmailSchedulerController implements EmailSchedulerApi {
 
-    private final EmailSchedulerService emailSchedulerService;
+  private final EmailSchedulerService emailSchedulerService;
 
-    @Autowired
-    public EmailSchedulerController(EmailSchedulerService emailSchedulerService) {
-        this.emailSchedulerService = emailSchedulerService;
-    }
+  @Autowired
+  public EmailSchedulerController(EmailSchedulerService emailSchedulerService) {
+    this.emailSchedulerService = emailSchedulerService;
+  }
 
-    @Override
-    public ResponseEntity<Void> triggerEmailScheduler(UUID emailConfigId) {
-        this.emailSchedulerService.triggerScheduler(emailConfigId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
+  @Override
+  public ResponseEntity<Void> triggerEmailScheduler(UUID emailConfigId) {
+    this.emailSchedulerService.triggerScheduler(emailConfigId);
+    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+  }
 }

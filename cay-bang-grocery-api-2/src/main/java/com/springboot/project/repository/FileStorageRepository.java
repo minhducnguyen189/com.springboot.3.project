@@ -10,6 +10,5 @@ import java.util.UUID;
 @Repository
 public interface FileStorageRepository extends JpaRepository<FileStorageEntity, UUID> {
 
-    Optional<FileStorageEntity> findByProductIdAndId(UUID productId, UUID fileId);
-
+  Optional<FileStorageEntity> findByProductIdAndId(UUID productId, UUID fileId);
 }

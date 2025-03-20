@@ -14,26 +14,24 @@ import java.util.stream.Collectors;
 
 public class LocalTimeAttributeConverter implements AttributeConverter<Set<LocalTime>, String> {
 
-    private static final String SEPARATOR = ",";
+  private static final String SEPARATOR = ",";
 
-    @Override
-    public String convertToDatabaseColumn(Set<LocalTime> times) {
-        return CollectionUtils.isEmpty(times)
-                ? StringUtils.EMPTY
-                : times.stream()
-                .map(LocalTime::toString)
-                .collect(Collectors.joining(SEPARATOR));
-    }
+  @Override
+  public String convertToDatabaseColumn(Set<LocalTime> times) {
+    return CollectionUtils.isEmpty(times)
+        ? StringUtils.EMPTY
+        : times.stream().map(LocalTime::toString).collect(Collectors.joining(SEPARATOR));
+  }
 
-    @Override
-    public Set<LocalTime> convertToEntityAttribute(String dbData) {
-        if (StringUtils.isEmpty(dbData)) {
-            return new HashSet<>();
-        }
-        String formatted = dbData.replaceAll("[//[//]]", dbData);
-        return Arrays.stream(formatted.split(SEPARATOR))
-                .map(String::trim)
-                .map(LocalTime::parse)
-                .collect(Collectors.toSet());
+  @Override
+  public Set<LocalTime> convertToEntityAttribute(String dbData) {
+    if (StringUtils.isEmpty(dbData)) {
+      return new HashSet<>();
     }
+    String formatted = dbData.replaceAll("[//[//]]", dbData);
+    return Arrays.stream(formatted.split(SEPARATOR))
+        .map(String::trim)
+        .map(LocalTime::parse)
+        .collect(Collectors.toSet());
+  }
 }

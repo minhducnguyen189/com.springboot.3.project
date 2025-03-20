@@ -17,24 +17,24 @@ import java.util.Optional;
 @RestController
 public class ProductController implements ProductApi {
 
-    private final ProductService productService;
+  private final ProductService productService;
 
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
+  @Autowired
+  public ProductController(ProductService productService) {
+    this.productService = productService;
+  }
 
-    @Override
-    public ResponseEntity<ProductDetail> addProduct(List<MultipartFile> files, ProductRequest json) {
-        ProductDetail productDetail = this.productService.createProduct(files, json);
-        return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
-    }
+  @Override
+  public ResponseEntity<ProductDetail> addProduct(List<MultipartFile> files, ProductRequest json) {
+    ProductDetail productDetail = this.productService.createProduct(files, json);
+    return new ResponseEntity<>(productDetail, HttpStatus.CREATED);
+  }
 
-    @Override
-    public ResponseEntity<ProductFilterResult> getProducts(Optional<Integer> pageNumber, Optional<Integer> pageSize) {
-        ProductFilterResult productFilterResult = this.productService
-                .getProducts(pageNumber.orElse(0), pageSize.orElse(18));
-        return new ResponseEntity<>(productFilterResult, HttpStatus.OK);
-    }
-
+  @Override
+  public ResponseEntity<ProductFilterResult> getProducts(
+      Optional<Integer> pageNumber, Optional<Integer> pageSize) {
+    ProductFilterResult productFilterResult =
+        this.productService.getProducts(pageNumber.orElse(0), pageSize.orElse(18));
+    return new ResponseEntity<>(productFilterResult, HttpStatus.OK);
+  }
 }

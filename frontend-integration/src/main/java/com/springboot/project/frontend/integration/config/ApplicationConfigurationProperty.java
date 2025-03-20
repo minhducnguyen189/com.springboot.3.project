@@ -11,31 +11,30 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "application.config")
 public class ApplicationConfigurationProperty {
 
-   private BackEnd backEnd;
-   private FrontEnd frontEnd;
+  private BackEnd backEnd;
+  private FrontEnd frontEnd;
 
-    @Getter
-    @Setter
-    public static class BackEnd {
-        private String apiBasePath;
-        private String serverBasePath;
-    }
+  @Getter
+  @Setter
+  public static class BackEnd {
+    private String apiBasePath;
+    private String serverBasePath;
+  }
 
-    @Getter
-    @Setter
-    public static class FrontEnd {
-        private AngularAppConfig firstAngularApp;
-        private AngularAppConfig secondAngularApp;
-    }
+  @Getter
+  @Setter
+  public static class FrontEnd {
+    private AngularAppConfig firstAngularApp;
+    private AngularAppConfig secondAngularApp;
+  }
 
-    @Getter
-    @Setter
-    public static class AngularAppConfig {
-        private String resourceHandlerPath;
-        private String[] resourceLocations;
-        private String indexLocation;
-        private String viewController;
-        private String viewName;
-    }
-
+  @Getter
+  @Setter
+  public static class AngularAppConfig {
+    private String resourceHandlerPath;
+    private String[] resourceLocations;
+    private String indexLocation;
+    private String viewController;
+    private String viewName;
+  }
 }

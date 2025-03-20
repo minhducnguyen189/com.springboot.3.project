@@ -10,15 +10,14 @@ import lombok.Setter;
 @Table(name = "order_item")
 public class OrderItemEntity extends BaseEntity {
 
-    @Column(name = "quantity")
-    private Long quantity;
+  @Column(name = "quantity")
+  private Long quantity;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
-    private ProductEntity product;
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "product_id", referencedColumnName = "id")
+  private ProductEntity product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
-    private OrderEntity order;
-
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "order_id", referencedColumnName = "id")
+  private OrderEntity order;
 }

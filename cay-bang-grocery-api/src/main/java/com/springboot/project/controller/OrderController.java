@@ -15,23 +15,23 @@ import java.util.Optional;
 @RestController
 public class OrderController implements OrderApi {
 
-    private final OrderService orderService;
+  private final OrderService orderService;
 
-    @Autowired
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
+  @Autowired
+  public OrderController(OrderService orderService) {
+    this.orderService = orderService;
+  }
 
-    @Override
-    public ResponseEntity<OrderDetail> createOrder(OrderRequest orderRequest) {
-        return new ResponseEntity<>(this.orderService.createOrder(orderRequest), HttpStatus.CREATED);
-    }
+  @Override
+  public ResponseEntity<OrderDetail> createOrder(OrderRequest orderRequest) {
+    return new ResponseEntity<>(this.orderService.createOrder(orderRequest), HttpStatus.CREATED);
+  }
 
-    @Override
-    public ResponseEntity<OrderFilterResult> getOrders(Optional<Integer> pageNumber, Optional<Integer> pageSize) {
-        OrderFilterResult orderFilterResult = this.orderService.getOrders(pageNumber.orElse(0), pageSize.orElse(10));
-        return new ResponseEntity<>(orderFilterResult, HttpStatus.OK);
-    }
-
-
+  @Override
+  public ResponseEntity<OrderFilterResult> getOrders(
+      Optional<Integer> pageNumber, Optional<Integer> pageSize) {
+    OrderFilterResult orderFilterResult =
+        this.orderService.getOrders(pageNumber.orElse(0), pageSize.orElse(10));
+    return new ResponseEntity<>(orderFilterResult, HttpStatus.OK);
+  }
 }

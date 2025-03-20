@@ -11,17 +11,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EmailController {
 
-    private final EmailService emailService;
+  private final EmailService emailService;
 
-    @Autowired
-    public EmailController(EmailService emailService) {
-        this.emailService = emailService;
-    }
+  @Autowired
+  public EmailController(EmailService emailService) {
+    this.emailService = emailService;
+  }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/v1/emails/action/send-email")
-    public ResponseEntity<Void> sendEmail() {
-        this.emailService.sendEmail();
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
+  @RequestMapping(method = RequestMethod.POST, path = "/v1/emails/action/send-email")
+  public ResponseEntity<Void> sendEmail() {
+    this.emailService.sendEmail();
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
 }

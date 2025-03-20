@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface IProductService {
 
-    ProductDetail createProduct(List<MultipartFile> files, ProductRequest productRequest);
+  ProductDetail createProduct(List<MultipartFile> files, ProductRequest productRequest);
 
-    ProductFilterResult getProducts(Integer pageNumber, Integer pageSize);
-
+  ProductFilterResult getProducts(Integer pageNumber, Integer pageSize);
 }

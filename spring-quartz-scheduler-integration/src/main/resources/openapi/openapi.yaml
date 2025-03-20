@@ -60,12 +60,12 @@ paths:
       description: get an email config data to database
       operationId: getEmailData
       parameters:
-      - in: path
-        name: email-config-id
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - in: path
+          name: email-config-id
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         "201":
           description: successful created operation
@@ -92,12 +92,12 @@ paths:
       description: update an email data to database
       operationId: updateEmailData
       parameters:
-      - in: path
-        name: email-config-id
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - in: path
+          name: email-config-id
+          required: true
+          schema:
+            type: string
+            format: uuid
       requestBody:
         description: Add an email data to database
         content:
@@ -131,12 +131,12 @@ paths:
       description: trigger email scheduler
       operationId: triggerEmailScheduler
       parameters:
-      - in: path
-        name: email-config-id
-        required: true
-        schema:
-          type: string
-          format: uuid
+        - in: path
+          name: email-config-id
+          required: true
+          schema:
+            type: string
+            format: uuid
       responses:
         "204":
           description: successful created operation
