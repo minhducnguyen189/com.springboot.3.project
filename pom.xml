@@ -29,6 +29,7 @@
         <module>cay-bang-grocery-api-2</module>
         <module>spring-websocket</module>
         <module>json-schema-validator</module>
+        <module>drools-spring-app</module>
     </modules>
 
     <properties>
