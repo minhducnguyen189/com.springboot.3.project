@@ -31,4 +31,9 @@ public class BusinessRuleController {
         return new ResponseEntity<>(this.businessRuleService.getBusinessRules(), HttpStatus.OK);
     }
 
+    @RequestMapping(method = RequestMethod.POST, path = "/v1/drools/business-rules/actions/test")
+    public ResponseEntity<String> testBusinessRule(@RequestBody String dataJson) {
+        return new ResponseEntity<>(this.businessRuleService.testInputBusinessRule(dataJson), HttpStatus.OK);
+    }
+
 }

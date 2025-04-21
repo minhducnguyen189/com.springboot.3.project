@@ -122,6 +122,20 @@
             <version>${hibernate.validator}</version>
         </dependency>
 
+        <!-- logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.api}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.api}</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

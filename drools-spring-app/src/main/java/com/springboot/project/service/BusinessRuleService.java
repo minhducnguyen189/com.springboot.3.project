@@ -13,6 +13,7 @@ import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +28,8 @@ public class BusinessRuleService {
     public BusinessRule createBusinessRule(String businessRuleJson) {
         BusinessRule businessRule = new BusinessRule();
         Document document = Document.parse(businessRuleJson);
-        String ruleName = document.getString("name");
+        Document businessRuleDocument = document.get("businessRule", Document.class);
+        String ruleName = businessRuleDocument.getString("name");
         businessRule.setId(UUID.randomUUID());
         businessRule.setName(ruleName);
         businessRule.setValue(document);
@@ -48,8 +50,8 @@ public class BusinessRuleService {
             ResultObject resultObject = new ResultObject();
             resultObject.setResult(data);
             statelessKieSession.setGlobal("result", resultObject);
-            statelessKieSession.execute(resultObject);
-            return this.objectMapper.writeValueAsString(statelessKieSession);
+            statelessKieSession.execute(Arrays.asList(data, resultObject));
+            return this.objectMapper.writeValueAsString(resultObject);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
