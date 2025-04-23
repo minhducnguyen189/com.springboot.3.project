@@ -14,20 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AccountController {
 
-  private final AccountService accountService;
+    private final AccountService accountService;
 
-  @Autowired
-  public AccountController(AccountService accountService) {
-    this.accountService = accountService;
-  }
+    @Autowired
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
-  @LogExecutionTime
-  @RequestMapping(
-      method = RequestMethod.GET,
-      path = "/v1/accounts",
-      produces = MediaType.TEXT_PLAIN_VALUE)
-  public ResponseEntity<String> getAccountDetail() {
-    RandomHelper.randomSleepInSeconds();
-    return new ResponseEntity<>(this.accountService.addAccount(), HttpStatus.OK);
-  }
+    @LogExecutionTime
+    @RequestMapping(
+            method = RequestMethod.GET,
+            path = "/v1/accounts",
+            produces = MediaType.TEXT_PLAIN_VALUE)
+    public ResponseEntity<String> getAccountDetail() {
+        RandomHelper.randomSleepInSeconds();
+        return new ResponseEntity<>(this.accountService.addAccount(), HttpStatus.OK);
+    }
 }

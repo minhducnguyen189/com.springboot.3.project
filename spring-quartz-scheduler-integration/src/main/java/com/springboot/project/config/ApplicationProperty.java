@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "application")
 public class ApplicationProperty {
 
-  private Quartz quartz;
+    private Quartz quartz;
 
-  @Getter
-  @Setter
-  public static class Quartz {
-    private String timeZone;
-  }
+    @Getter
+    @Setter
+    public static class Quartz {
+        private String timeZone;
+    }
 }

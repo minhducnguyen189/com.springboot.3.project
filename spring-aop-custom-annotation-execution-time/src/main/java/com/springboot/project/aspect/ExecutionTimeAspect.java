@@ -13,19 +13,19 @@ import org.springframework.stereotype.Component;
 @ConditionalOnExpression("${aspect.enabled:true}")
 public class ExecutionTimeAspect {
 
-  @Around("@annotation(com.springboot.project.annotation.LogExecutionTime)")
-  public Object executionTime(ProceedingJoinPoint point) throws Throwable {
-    long startTime = System.currentTimeMillis();
-    Object object = point.proceed();
-    long endtime = System.currentTimeMillis();
-    log.info(
-        "Class Name: "
-            + point.getSignature().getDeclaringTypeName()
-            + ". Method Name: "
-            + point.getSignature().getName()
-            + ". Time taken for Execution is : "
-            + (endtime - startTime)
-            + "ms");
-    return object;
-  }
+    @Around("@annotation(com.springboot.project.annotation.LogExecutionTime)")
+    public Object executionTime(ProceedingJoinPoint point) throws Throwable {
+        long startTime = System.currentTimeMillis();
+        Object object = point.proceed();
+        long endtime = System.currentTimeMillis();
+        log.info(
+                "Class Name: "
+                        + point.getSignature().getDeclaringTypeName()
+                        + ". Method Name: "
+                        + point.getSignature().getName()
+                        + ". Time taken for Execution is : "
+                        + (endtime - startTime)
+                        + "ms");
+        return object;
+    }
 }

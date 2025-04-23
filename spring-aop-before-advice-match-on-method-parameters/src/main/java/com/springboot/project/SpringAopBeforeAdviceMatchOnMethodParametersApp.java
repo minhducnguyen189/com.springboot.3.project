@@ -9,26 +9,26 @@ import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class SpringAopBeforeAdviceMatchOnMethodParametersApp {
-  public static void main(String[] args) {
-    SpringApplication.run(SpringAopBeforeAdviceMatchOnMethodParametersApp.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(SpringAopBeforeAdviceMatchOnMethodParametersApp.class, args);
+    }
 
-  @Bean
-  public CommandLineRunner commandLineRunner(AccountDAO accountDAO, MembershipDAO membershipDAO) {
-    return runner -> {
-      demoTheBeforeAdvice(accountDAO, membershipDAO);
-    };
-  }
+    @Bean
+    public CommandLineRunner commandLineRunner(AccountDAO accountDAO, MembershipDAO membershipDAO) {
+        return runner -> {
+            demoTheBeforeAdvice(accountDAO, membershipDAO);
+        };
+    }
 
-  private void demoTheBeforeAdvice(AccountDAO accountDAO, MembershipDAO membershipDAO) {
-    // call the first time
-    accountDAO.addAccount();
-    membershipDAO.addSillyMember();
+    private void demoTheBeforeAdvice(AccountDAO accountDAO, MembershipDAO membershipDAO) {
+        // call the first time
+        accountDAO.addAccount();
+        membershipDAO.addSillyMember();
 
-    System.out.println("\n call the second time! \n");
+        System.out.println("\n call the second time! \n");
 
-    // call the second time
-    accountDAO.addAccount();
-    membershipDAO.addSillyMember();
-  }
+        // call the second time
+        accountDAO.addAccount();
+        membershipDAO.addSillyMember();
+    }
 }

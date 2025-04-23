@@ -11,7 +11,7 @@ import lombok.Setter;
 @Builder
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class CommandResponse {
-  private boolean isBroker;
-  private boolean requiredSendingBroker;
-  private WebSocketExchange payload;
+    private boolean isBroker;
+    private boolean requiredSendingBroker;
+    private WebSocketExchange payload;
 }

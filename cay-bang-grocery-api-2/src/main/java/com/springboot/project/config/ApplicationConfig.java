@@ -11,6 +11,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "application")
 public class ApplicationConfig {
 
-  private String serverBaseUrl;
-  private String getFileApi;
+    private String serverBaseUrl;
+    private String getFileApi;
 }

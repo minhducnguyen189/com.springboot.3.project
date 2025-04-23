@@ -9,6 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WebSocketExchange {
-  private String event;
-  private JsonNode data;
+    private String event;
+    private JsonNode data;
 }

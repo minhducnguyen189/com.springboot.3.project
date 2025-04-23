@@ -6,7 +6,7 @@ import com.springboot.project.generated.model.OrderRequest;
 
 public interface IOrderService {
 
-  OrderDetail createOrder(OrderRequest orderRequest);
+    OrderDetail createOrder(OrderRequest orderRequest);
 
-  OrderFilterResult getOrders(Integer pageNumber, Integer pageSize);
+    OrderFilterResult getOrders(Integer pageNumber, Integer pageSize);
 }

@@ -10,6 +10,6 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CommandDetail {
-  private CommandType commandType;
-  private Command command;
+    private CommandType commandType;
+    private Command command;
 }

@@ -11,5 +11,4 @@ public class JsonSchemaValidatorApplication {
     public static void main(String[] args) {
         SpringApplication.run(JsonSchemaValidatorApplication.class, args);
     }
-
 }

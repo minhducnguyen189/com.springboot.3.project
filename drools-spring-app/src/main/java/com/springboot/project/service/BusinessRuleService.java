@@ -3,19 +3,17 @@ package com.springboot.project.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import com.springboot.project.entity.BusinessRule;
 import com.springboot.project.model.ResultObject;
 import com.springboot.project.repository.BusinessRuleRepository;
+import java.util.Arrays;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.kie.api.runtime.StatelessKieSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -45,8 +43,11 @@ public class BusinessRuleService {
             JsonNode inputDataJsonNode = this.objectMapper.readTree(inputData);
             JsonNode data = inputDataJsonNode.get("data");
             JsonNode businessRuleJsonNode = inputDataJsonNode.get("businessRule");
-            String dumpDrlString = this.droolsService.createDrlFileFromJsonNode(businessRuleJsonNode);
-            StatelessKieSession statelessKieSession = this.droolsService.createStatelessKieSession(dumpDrlString, businessRuleJsonNode.get("name").asText());
+            String dumpDrlString =
+                    this.droolsService.createDrlFileFromJsonNode(businessRuleJsonNode);
+            StatelessKieSession statelessKieSession =
+                    this.droolsService.createStatelessKieSession(
+                            dumpDrlString, businessRuleJsonNode.get("name").asText());
             ResultObject resultObject = new ResultObject();
             resultObject.setResult(data);
             statelessKieSession.setGlobal("result", resultObject);
@@ -56,5 +57,4 @@ public class BusinessRuleService {
             throw new RuntimeException(e);
         }
     }
-
 }

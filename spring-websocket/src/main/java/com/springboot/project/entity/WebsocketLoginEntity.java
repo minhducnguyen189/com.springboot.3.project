@@ -12,16 +12,16 @@ import lombok.*;
 @Table(name = "websocket_login")
 public class WebsocketLoginEntity extends BaseEntity {
 
-  @Column(name = "user_id")
-  private Long userId;
+    @Column(name = "user_id")
+    private Long userId;
 
-  @Column(name = "display_name")
-  private String displayName;
+    @Column(name = "display_name")
+    private String displayName;
 
-  @Column(name = "session_id")
-  private String sessionId;
+    @Column(name = "session_id")
+    private String sessionId;
 
-  @Enumerated(value = EnumType.STRING)
-  @Column(name = "login_state")
-  private LoginStateEnum loginState;
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "login_state")
+    private LoginStateEnum loginState;
 }

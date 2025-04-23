@@ -8,34 +8,35 @@ import com.springboot.project.handler.command.WebSocketExchange;
 import com.springboot.project.handler.command.model.CommandResponse;
 import com.springboot.project.service.WebSocketLoginService;
 import com.springboot.project.service.WebSocketService;
+import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.socket.WebSocketSession;
 
-import java.io.IOException;
-
 public class JoinRoomCommand implements Command {
 
-  private final WebSocketLoginService webSocketLoginService;
-  private final WebSocketService webSocketService;
+    private final WebSocketLoginService webSocketLoginService;
+    private final WebSocketService webSocketService;
 
-  @Autowired
-  public JoinRoomCommand(
-      WebSocketLoginService webSocketLoginService, WebSocketService webSocketService) {
-    this.webSocketLoginService = webSocketLoginService;
-    this.webSocketService = webSocketService;
-  }
+    @Autowired
+    public JoinRoomCommand(
+            WebSocketLoginService webSocketLoginService, WebSocketService webSocketService) {
+        this.webSocketLoginService = webSocketLoginService;
+        this.webSocketService = webSocketService;
+    }
 
-  @Override
-  public CommandResponse execute(CommandType commandType, JsonNode data, WebSocketSession session)
-      throws IOException {
+    @Override
+    public CommandResponse execute(CommandType commandType, JsonNode data, WebSocketSession session)
+            throws IOException {
 
-    WebsocketLoginEntity websocketLoginEntity = webSocketService.getWebsocketLogin(session.getId());
+        WebsocketLoginEntity websocketLoginEntity =
+                webSocketService.getWebsocketLogin(session.getId());
 
-    this.webSocketLoginService.setCurrentLogin(websocketLoginEntity);
+        this.webSocketLoginService.setCurrentLogin(websocketLoginEntity);
 
-    return CommandResponse.builder()
-        .isBroker(commandType.isMessageBroker())
-        .payload(WebSocketExchange.builder().event(commandType.getResponseCommand()).build())
-        .build();
-  }
+        return CommandResponse.builder()
+                .isBroker(commandType.isMessageBroker())
+                .payload(
+                        WebSocketExchange.builder().event(commandType.getResponseCommand()).build())
+                .build();
+    }
 }

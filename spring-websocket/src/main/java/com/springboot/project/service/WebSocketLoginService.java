@@ -10,69 +10,69 @@ import org.springframework.stereotype.Service;
 @Service
 public class WebSocketLoginService {
 
-  @Getter private WebsocketLoginEntity currentLogin;
+    @Getter private WebsocketLoginEntity currentLogin;
 
-  private final WebsocketLoginRepository websocketLoginRepository;
+    private final WebsocketLoginRepository websocketLoginRepository;
 
-  @Autowired
-  public WebSocketLoginService(WebsocketLoginRepository websocketLoginRepository) {
-    this.websocketLoginRepository = websocketLoginRepository;
-  }
-
-  public boolean isLogin(long userId) {
-    WebsocketLoginEntity websocketLoginEntity = this.getByUserId(userId);
-    if (websocketLoginEntity == null) {
-      return false;
+    @Autowired
+    public WebSocketLoginService(WebsocketLoginRepository websocketLoginRepository) {
+        this.websocketLoginRepository = websocketLoginRepository;
     }
-    return websocketLoginEntity.getLoginState().equals(LoginStateEnum.ACTIVE);
-  }
 
-  public WebsocketLoginEntity getLogin(long userId) {
-    return this.getByUserId(userId);
-  }
-
-  public void login(String id, long userId) {
-    WebsocketLoginEntity websocketLoginEntity = this.getLogin(userId);
-    if (websocketLoginEntity == null) {
-      websocketLoginEntity =
-          WebsocketLoginEntity.builder()
-              .userId(userId)
-              .sessionId(id)
-              .loginState(LoginStateEnum.ACTIVE)
-              .build();
-    } else {
-      websocketLoginEntity.setSessionId(id);
-      websocketLoginEntity.setLoginState(LoginStateEnum.ACTIVE);
+    public boolean isLogin(long userId) {
+        WebsocketLoginEntity websocketLoginEntity = this.getByUserId(userId);
+        if (websocketLoginEntity == null) {
+            return false;
+        }
+        return websocketLoginEntity.getLoginState().equals(LoginStateEnum.ACTIVE);
     }
-    this.save(websocketLoginEntity);
-  }
 
-  public void logout(String sessionId) {
-    WebsocketLoginEntity websocketLoginEntity = this.getBySessionId(sessionId);
-    if (websocketLoginEntity == null) {
-      return;
+    public WebsocketLoginEntity getLogin(long userId) {
+        return this.getByUserId(userId);
     }
-    websocketLoginEntity.setLoginState(LoginStateEnum.INACTIVE);
-    this.save(websocketLoginEntity);
-  }
 
-  public void setCurrentLogin(WebsocketLoginEntity websocketLoginEntity) {
-    this.currentLogin = websocketLoginEntity;
-  }
+    public void login(String id, long userId) {
+        WebsocketLoginEntity websocketLoginEntity = this.getLogin(userId);
+        if (websocketLoginEntity == null) {
+            websocketLoginEntity =
+                    WebsocketLoginEntity.builder()
+                            .userId(userId)
+                            .sessionId(id)
+                            .loginState(LoginStateEnum.ACTIVE)
+                            .build();
+        } else {
+            websocketLoginEntity.setSessionId(id);
+            websocketLoginEntity.setLoginState(LoginStateEnum.ACTIVE);
+        }
+        this.save(websocketLoginEntity);
+    }
 
-  public WebsocketLoginEntity getWebsocketLogin(String id) {
-    return this.getBySessionId(id);
-  }
+    public void logout(String sessionId) {
+        WebsocketLoginEntity websocketLoginEntity = this.getBySessionId(sessionId);
+        if (websocketLoginEntity == null) {
+            return;
+        }
+        websocketLoginEntity.setLoginState(LoginStateEnum.INACTIVE);
+        this.save(websocketLoginEntity);
+    }
 
-  private WebsocketLoginEntity getBySessionId(String sessionId) {
-    return this.websocketLoginRepository.findBySessionId(sessionId);
-  }
+    public void setCurrentLogin(WebsocketLoginEntity websocketLoginEntity) {
+        this.currentLogin = websocketLoginEntity;
+    }
 
-  private WebsocketLoginEntity getByUserId(long userId) {
-    return this.websocketLoginRepository.findByUserId(userId);
-  }
+    public WebsocketLoginEntity getWebsocketLogin(String id) {
+        return this.getBySessionId(id);
+    }
 
-  public WebsocketLoginEntity save(WebsocketLoginEntity websocketLoginEntity) {
-    return this.websocketLoginRepository.save(websocketLoginEntity);
-  }
+    private WebsocketLoginEntity getBySessionId(String sessionId) {
+        return this.websocketLoginRepository.findBySessionId(sessionId);
+    }
+
+    private WebsocketLoginEntity getByUserId(long userId) {
+        return this.websocketLoginRepository.findByUserId(userId);
+    }
+
+    public WebsocketLoginEntity save(WebsocketLoginEntity websocketLoginEntity) {
+        return this.websocketLoginRepository.save(websocketLoginEntity);
+    }
 }

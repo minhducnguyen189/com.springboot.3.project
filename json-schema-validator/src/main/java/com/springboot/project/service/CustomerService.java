@@ -6,13 +6,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springboot.project.model.Customer;
 import com.springboot.project.model.JsonValidationResponse;
 import com.springboot.project.repository.CustomerRepository;
+import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
@@ -23,7 +22,9 @@ public class CustomerService {
     private final ObjectMapper objectMapper;
 
     public Customer createCustomer(String customerJson) {
-        JsonValidationResponse jsonValidationResponse = this.jsonSchemaValidatorService.validateJsonData("CustomerJsonSchemaValidator", customerJson);
+        JsonValidationResponse jsonValidationResponse =
+                this.jsonSchemaValidatorService.validateJsonData(
+                        "CustomerJsonSchemaValidator", customerJson);
         if (jsonValidationResponse.isValidJson()) {
             Customer customer = new Customer();
             JsonNode customerNode;
@@ -44,7 +45,6 @@ public class CustomerService {
     }
 
     public List<Customer> getCustomers() {
-       return this.customerRepository.findAll();
+        return this.customerRepository.findAll();
     }
-
 }

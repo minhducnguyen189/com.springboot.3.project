@@ -7,9 +7,8 @@ import org.bson.Document;
 @Getter
 @Setter
 public class JsonValidationResponse {
-    
+
     private boolean validJson;
     private Long schemaVersion;
     private Document jsonInput;
-
 }

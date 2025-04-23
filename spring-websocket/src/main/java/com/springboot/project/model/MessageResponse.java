@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @JsonInclude(JsonInclude.Include.NON_DEFAULT)
 public class MessageResponse {
-  private String code;
-  private String message;
-  private String traceId;
+    private String code;
+    private String message;
+    private String traceId;
 }

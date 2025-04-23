@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class PropertyBasedTestingApplication {
-  public static void main(String[] args) {
-    SpringApplication.run(PropertyBasedTestingApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(PropertyBasedTestingApplication.class, args);
+    }
 }
