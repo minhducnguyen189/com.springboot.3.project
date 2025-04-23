@@ -40,7 +40,7 @@ public class JsonSchemaValidatorService {
         Document value = data.get("value", Document.class);
         Optional<JsonSchemaValidator> latestJsonSchemaOpt =
                 this.getlatestActiveJsonSchemaVersion(schemaName);
-        if (!latestJsonSchemaOpt.isPresent()) {
+        if (latestJsonSchemaOpt.isEmpty()) {
             return this.saveNewJsonSchemaValidator(jsonSchemaValidator, schemaName, value);
         }
         JsonSchemaValidator latestJsonSchema = latestJsonSchemaOpt.get();
@@ -57,7 +57,7 @@ public class JsonSchemaValidatorService {
     public JsonValidationResponse validateJsonData(String schemaName, String jsonData) {
         Optional<JsonSchemaValidator> latestJsonSchemaOpt =
                 this.getlatestActiveJsonSchemaVersion(schemaName);
-        if (!latestJsonSchemaOpt.isPresent()) {
+        if (latestJsonSchemaOpt.isEmpty()) {
             return this.createJsonValidationResponse(false, jsonData, 0L);
         }
         JsonSchemaValidator latestJsonSchema = latestJsonSchemaOpt.get();
