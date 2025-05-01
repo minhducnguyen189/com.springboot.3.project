@@ -1,0 +1,117 @@
+{
+  "data": {
+    "price": 150,
+    "name": "Laptop",
+    "quantity": 3,
+    "user": {
+      "birthDate": "1992-09-18",
+      "membershipLevel": "GOLD"
+    },
+    "order": {
+      "total": 450,
+      "items": 3
+    }
+  },
+  "businessRule": {
+    "name": "ComplexBusinessRulePackage",
+    "imports": [
+      "com.fasterxml.jackson.databind.JsonNode",
+      "com.springboot.project.util.JsonNodeHelper",
+      "com.springboot.project.util.DateTimeHelper",
+      "com.springboot.project.model.GenericObject",
+      "java.time.LocalDate"
+    ],
+    "globals": [
+      {
+        "type": "com.springboot.project.model.ResultObject",
+        "identifier": "result"
+      }
+    ],
+    "rules": [
+      {
+        "rule": "HighValueOrderRule",
+        "when": [
+          {
+            "identifier": "$data",
+            "type": "GenericObject",
+            "conditions": [
+              "getJsonPropertyAsInt(\"/order/total\") > 100",
+              "getJsonPropertyAsInt(\"/order/items\") >= 3"
+            ]
+          }
+        ],
+        "then": [
+          {
+            "actions": [
+              "System.out.println(\"High value order detected with total: \" + $data.getJsonPropertyAsInt(\"/order/total\"))",
+              "result.getResult().put(\"highValueOrder\", true)"
+            ]
+          }
+        ]
+      },
+      {
+        "rule": "PremiumMemberDiscountRule",
+        "when": [
+          {
+            "identifier": "$data",
+            "type": "GenericObject",
+            "conditions": [
+              "getJsonPropertyAsString(\"/user/membershipLevel\").equals(\"GOLD\") || getJsonPropertyAsString(\"/user/membershipLevel\").equals(\"PLATINUM\")",
+              "getJsonPropertyAsInt(\"/order/total\") > 100"
+            ]
+          }
+        ],
+        "then": [
+          {
+            "actions": [
+              "System.out.println(\"Premium member eligible for discount: \" + $data.getJsonPropertyAsString(\"/user/membershipLevel\"))",
+              "result.getResult().put(\"eligibleForDiscount\", true)"
+            ]
+          }
+        ]
+      },
+      {
+        "rule": "YoungUserSpecialRule",
+        "when": [
+          {
+            "identifier": "$data",
+            "type": "GenericObject",
+            "conditions": [
+              "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate(getJsonPropertyAsString(\"/user/birthDate\")), LocalDate.now()) < 30",
+              "getJsonPropertyAsInt(\"/price\") > 100",
+              "getJsonPropertyAsInt(\"/quantity\") > 2"
+            ]
+          }
+        ],
+        "then": [
+          {
+            "actions": [
+              "System.out.println(\"Young user buying expensive product with quantity > 2\")",
+              "result.getResult().put(\"youngUserBonus\", true)"
+            ]
+          }
+        ]
+      },
+      {
+        "rule": "NotUserSpecialRule",
+        "when": [
+          {
+            "identifier": "$data",
+            "type": "GenericObject",
+            "conditions": [
+              "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate(getJsonPropertyAsString(\"/user/birthDate\")), LocalDate.now()) >= 30"
+            ]
+          }
+        ],
+        "then": [
+          {
+            "actions": [
+              "System.out.println(\"Normal adult user with age >= 30\")",
+              "result.getResult().put(\"youngUserBonus\", false)"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

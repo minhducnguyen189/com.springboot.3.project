@@ -30,6 +30,7 @@
         <module>spring-websocket</module>
         <module>json-schema-validator</module>
         <module>drools-spring-app</module>
+        <module>drools-spring-app-v2</module>
     </modules>
 
     <properties>
@@ -58,8 +59,8 @@
                 <configuration>
                     <java>
                         <includes>
-                            <include>**/src/main/java/**/*.java</include> <!-- Check application code -->
-                            <include>**/src/test/java/**/*.java</include> <!-- Check application tests code -->
+                            <include>src/main/java/**/*.java</include> <!-- Check application code -->
+                            <include>src/test/java/**/*.java</include> <!-- Check application tests code -->
                         </includes>
                         <googleJavaFormat>
                             <version>${google.java.format}</version>

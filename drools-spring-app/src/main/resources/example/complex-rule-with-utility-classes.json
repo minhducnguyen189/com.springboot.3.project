@@ -33,11 +33,6 @@
           {
             "identifier": "data",
             "type": "JsonNode",
-            "conditions": []
-          },
-          {
-            "identifier": "order",
-            "type": "JsonNode",
             "conditions": [
               "JsonNodeHelper.getChild(data, \"order\").get(\"total\").asInt() > 400",
               "JsonNodeHelper.getChild(data, \"order\").get(\"items\").asInt() >= 3"
@@ -59,19 +54,8 @@
           {
             "identifier": "data",
             "type": "JsonNode",
-            "conditions": []
-          },
-          {
-            "identifier": "user",
-            "type": "JsonNode",
             "conditions": [
-              "JsonNodeHelper.getChild(data, \"user\").get(\"membershipLevel\").asText().equals(\"GOLD\") || JsonNodeHelper.getChild(data, \"user\").get(\"membershipLevel\").asText().equals(\"PLATINUM\")"
-            ]
-          },
-          {
-            "identifier": "order",
-            "type": "JsonNode",
-            "conditions": [
+              "JsonNodeHelper.getChild(data, \"user\").get(\"membershipLevel\").asText().equals(\"GOLD\") || JsonNodeHelper.getChild(data, \"user\").get(\"membershipLevel\").asText().equals(\"PLATINUM\")",
               "JsonNodeHelper.getChild(data, \"order\").get(\"total\").asInt() > 300"
             ]
           }
@@ -90,13 +74,6 @@
         "when": [
           {
             "identifier": "data",
-            "type": "JsonNode",
-            "conditions": [
-
-            ]
-          },
-          {
-            "identifier": "user",
             "type": "JsonNode",
             "conditions": [
               "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate(JsonNodeHelper.getChild(data, \"user\").get(\"birthDate\").asText()), LocalDate.now()) < 30",
@@ -119,13 +96,6 @@
         "when": [
           {
             "identifier": "data",
-            "type": "JsonNode",
-            "conditions": [
-
-            ]
-          },
-          {
-            "identifier": "user",
             "type": "JsonNode",
             "conditions": [
               "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate(JsonNodeHelper.getChild(data, \"user\").get(\"birthDate\").asText()), LocalDate.now()) >= 30"
