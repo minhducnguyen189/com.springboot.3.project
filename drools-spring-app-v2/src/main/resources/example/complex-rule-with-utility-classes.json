@@ -35,15 +35,17 @@
             "identifier": "$data",
             "type": "GenericObject",
             "conditions": [
-              "getJsonPropertyAsInt(\"/order/total\") > 100",
-              "getJsonPropertyAsInt(\"/order/items\") >= 3"
+              "$total: getJsonPropertyAsInt(\"/order/total\") != null",
+              "$item: getJsonPropertyAsInt(\"/order/items\") != null",
+              "$total > 100",
+              "$item >= 3"
             ]
           }
         ],
         "then": [
           {
             "actions": [
-              "System.out.println(\"High value order detected with total: \" + $data.getJsonPropertyAsInt(\"/order/total\"))",
+              "System.out.println(\"High value order detected with total: \" + $total)",
               "result.getResult().put(\"highValueOrder\", true)"
             ]
           }
@@ -56,15 +58,17 @@
             "identifier": "$data",
             "type": "GenericObject",
             "conditions": [
-              "getJsonPropertyAsString(\"/user/membershipLevel\").equals(\"GOLD\") || getJsonPropertyAsString(\"/user/membershipLevel\").equals(\"PLATINUM\")",
-              "getJsonPropertyAsInt(\"/order/total\") > 100"
+              "$total: getJsonPropertyAsInt(\"/order/total\") != null",
+              "$membershipLevel: getJsonPropertyAsString(\"/user/membershipLevel\") != null",
+              "$membershipLevel.equals(\"GOLD\") || $membershipLevel.equals(\"PLATINUM\")",
+              "$total > 100"
             ]
           }
         ],
         "then": [
           {
             "actions": [
-              "System.out.println(\"Premium member eligible for discount: \" + $data.getJsonPropertyAsString(\"/user/membershipLevel\"))",
+              "System.out.println(\"Premium member eligible for discount: \" + $membershipLevel)",
               "result.getResult().put(\"eligibleForDiscount\", true)"
             ]
           }
@@ -77,9 +81,12 @@
             "identifier": "$data",
             "type": "GenericObject",
             "conditions": [
-              "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate(getJsonPropertyAsString(\"/user/birthDate\")), LocalDate.now()) < 30",
-              "getJsonPropertyAsInt(\"/price\") > 100",
-              "getJsonPropertyAsInt(\"/quantity\") > 2"
+              "$price: getJsonPropertyAsInt(\"/price\") != null",
+              "$quantity: getJsonPropertyAsInt(\"/quantity\") != null",
+              "$birthDate: getJsonPropertyAsString(\"/user/birthDate\") != null",
+              "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate($birthDate), LocalDate.now()) < 30",
+              "$price > 100",
+              "$quantity > 2"
             ]
           }
         ],
@@ -99,7 +106,8 @@
             "identifier": "$data",
             "type": "GenericObject",
             "conditions": [
-              "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate(getJsonPropertyAsString(\"/user/birthDate\")), LocalDate.now()) >= 30"
+              "$birthDate: getJsonPropertyAsString(\"/user/birthDate\") != null",
+              "DateTimeHelper.calculateAge(DateTimeHelper.toLocalDate($birthDate), LocalDate.now()) >= 30"
             ]
           }
         ],
