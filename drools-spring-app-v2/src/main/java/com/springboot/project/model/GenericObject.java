@@ -1,7 +1,6 @@
 package com.springboot.project.model;
 
 import com.fasterxml.jackson.databind.JsonNode;
-
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -99,8 +98,7 @@ public class GenericObject {
         return result;
     }
 
-    /**
-     /** Get a JSON array as a List<Integer>. Returns null if node is not an array. */
+    /** /** Get a JSON array as a List<Integer>. Returns null if node is not an array. */
     public List<Integer> getJsonPropertyAsIntList(String pointerPath) {
         JsonNode node = getJsonProperty(pointerPath);
         if (!node.isArray()) return null;
@@ -112,6 +110,4 @@ public class GenericObject {
         }
         return result;
     }
-
-
 }
