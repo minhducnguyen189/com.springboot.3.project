@@ -32,7 +32,6 @@
         <module>drools-spring-app</module>
         <module>drools-spring-app-v2</module>
         <module>drools-spring-app-v3</module>
-        <module>drools-getting-start</module>
     </modules>
 
     <properties>
