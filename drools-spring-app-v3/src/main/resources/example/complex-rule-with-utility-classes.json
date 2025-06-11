@@ -8,8 +8,8 @@
       "membershipLevel": "GOLD"
     },
     "order": {
-      "total": 450,
-      "items": 3
+      "total": 160,
+      "items": null
     }
   },
   "businessRule": {
@@ -48,6 +48,21 @@
               "System.out.println(\"High value order detected with total: \" + $total)",
               "result.getResult().put(\"highValueOrder\", true)"
             ]
+          }
+        ],
+        "conflicts": [
+          {
+            "name": "MissingOrderFields",
+            "identifier": "$data",
+            "type": "GenericObject",
+            "conditions": [
+              "$isNull: (getJsonPropertyAsInt(\"/order/total\") == null || getJsonPropertyAsInt(\"/order/items\") == null)"
+            ],
+            "actions": [
+              "System.out.println(\"Some order values are missing\")",
+              "result.getResult().put(\"conflict\", \"Missing order data\")"
+            ],
+            "conflictDescription": "Some required fields are missing"
           }
         ]
       },
